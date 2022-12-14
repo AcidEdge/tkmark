@@ -1,0 +1,14 @@
+{% extends "results/base.html" %}
+{% block content %}
+{% load mathfilters %}
+<h1>Coming soon!</h1>
+    {% if user.is_authenticated %}
+    <article class="media content-section">
+      <img class="rounded-circle article-img" src="/media/site_media/gold_star.jpg">
+      <div class="media-body">
+        <p class="text-muted"><i>Once completed this section will be a downloadable pdf report with results for all managers<br>Please check back soon!</i>
+        </p>
+      </div>
+    </article>
+    {% endif %}
+    {% endblock content %}

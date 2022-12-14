@@ -1,0 +1,191 @@
+{% extends "results/base.html" %}
+{% load mathfilters %}
+{% block content %}
+  <article class="media content-section">
+    <img class="rounded-circle article-img" src="{{ object.manager.profile.image.url }}">
+    <div class="media-body">
+      <div class="article-metadata">
+        <h2>{{ object.manager.first_name }}'s Results</h2>
+        
+        {% if user.is_staff %}
+          <div>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'results-update' object.id %}">Update</a>
+          </div>
+        {% endif %}
+    </div>
+  </article>
+  <article class="media content-section">
+    <img class="rounded-circle article-img" src="media/site_media/traffic_light.jpg">
+      <p class="bold">Green Dayparts<br><br>Goal: <br>{{goals.green_goal}}%</p>
+    <table class="table">
+     <thead>
+      <tr>
+        <th scope="col">Green Dayparts</th>
+        <th scope="col">Red Dayparts</th>
+        <th scope="col">Total Dayparts</th>
+        <th scope="col">Green %</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+          <td>
+              {{object.green}}
+          </td>
+          <td>
+              {{object.red}}
+          </td>
+          <td>
+              {{object.total_dayparts}}
+          </td>
+          {% if object.green_percent >= goals.green_goal %}
+          <td style="color:green;">
+              {{object.green_percent}}%
+          </td>
+          {% else %}
+          <td style="color:red;">
+              {{object.green_percent}}%
+          </td>
+          {% endif %}
+      </tr>
+    </table>
+    </article>
+    <article class="media content-section">
+    <img class="rounded-circle article-img" src="/media/site_media/stopwatch.jpg">
+      <p class="bold">Seconds +/- Daypart Goals<br><br>Goal: <br>Under {{goals.seconds_goal}}<br>Seconds</p>
+    <table class="table">
+     <thead>
+      <tr>
+        <th scope="col"> Seconds Total</th>
+        <th scope="col">Seconds Average</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+             {% if goals.seconds_goal >= object.seconds %}
+          <td style="color: green">
+              {{object.seconds}}
+          </td>
+            {% else %}
+            <td style="color: red">
+              {{object.seconds}}
+          </td>
+          {% endif %}
+          {% if goals.seconds_goal >= object.seconds_avg %}
+          <td style="color: green">
+              {{object.seconds_avg}}
+          </td>
+            {% else %}
+            <td style="color: red">
+              {{object.seconds_avg}}
+          </td>
+          {% endif %}
+      </tr>
+    </table>
+    </article>
+    <article class="media content-section">
+      <img class="rounded-circle article-img" src="/media/site_media/gold_star.jpg">
+        <p class="bold">Champs Cards Given Out<br><br>Goal:<br>{{goals.champs_goal}}%</p>
+      <table class="table">
+       <thead>
+        <tr>
+          <th scope="col">Cards Given Out</th>
+          <th scope="col">Average Cards</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td>
+                {{object.champs}}
+            </td>
+            {% if object.champs_percent >= goals.champs_goal %}
+            <td style="color: green">
+                {{object.champs_percent}}%
+            </td>
+              {% else %}
+              <td style="color: red">
+                {{object.champs_percent}}%
+            </td>
+            {% endif %}
+        </tr>
+      </table>
+      </article>
+      <article class="media content-section">
+        <img class="rounded-circle article-img" src="/media/site_media/speech_bubble.jpg">
+          <p class="bold">Survey Name Mentions<br><br>Goal:<br>{{goals.mention_goal}} per period<br>({{goals.mention_goal|div:4}} per week)</p>
+        <table class="table">
+         <thead>
+          <tr>
+            <th scope="col">Mentions Total</th>
+            <th scope="col"> Avg Per Week</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+              {% if object.mention >= goals.mention_goal %}
+            <td style="color: green">
+                {{object.mentions}} 
+            </td>
+              {% else %}
+              <td style="color: red">
+                {{object.mentions}} 
+            </td>
+            {% endif %}
+            {% if object.mention|div:4 >= goals.mention_goal|div:4 %}
+            <td style="color: green">
+                {{object.mention|div:4}} 
+            </td>
+              {% else %}
+              <td style="color: red">
+                {{object.mention|div:4}} 
+            </td>
+            {% endif %}
+          </tr>
+        </table>
+        </article>
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="/media/site_media/gold_bell.jpg">
+            <p class="bold">5 Bells (Surveys)<br><br>Goal:<br>{{goals.five_bells_goal}}%</p>
+          <table class="table">
+           <thead>
+            <tr>
+              <th scope="col">5 Bells</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+                {% if object.five_bells >= goals.five_bells_goal %}
+                <td style="color: green">
+                    {{object.five_bells}} %
+                </td>
+                  {% else %}
+                  <td style="color: red">
+                    {{object.five_bells}} %
+                </td>
+                {% endif %}
+            </tr>
+          </table>
+          </article>
+          <article class="media content-section">
+            <img class="rounded-circle article-img" src="/media/site_media/angry.jpg">
+              <p class="bold">Dissat (Surveys)<br><br>Goal:<br>Under<br>{{goals.dissat_goal}}%</p>
+            <table class="table">
+             <thead>
+              <tr>
+                <th scope="col">Dissat</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                  {% if goals.dissat_goal >= object.dissat %}
+                  <td style="color: green">
+                      {{object.dissat}}%
+                  </td>
+                    {% else %}
+                    <td style="color: red">
+                      {{object.dissat}}%
+                  </td>
+                  {% endif %}
+              </tr>
+            </table>
+            </article>
+{% endblock content %}

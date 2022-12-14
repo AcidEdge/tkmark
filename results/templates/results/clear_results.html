@@ -1,0 +1,20 @@
+{% extends "results/base.html" %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Delete Results</legend>
+                <h2>Are you sure you want to delete results and start over?</h2>
+                <p>This will erase all results currently in the system, resetting everyone to zero. This 
+                    feature is only meant for starting a new period, and should not be used at any other time.
+                    This cannot be undone and there is no backup!
+                </p>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-danger" type="submit">Yes, Delete</button>
+                <a class="btn btn-outline-secondary" href="{% url 'results-home' %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

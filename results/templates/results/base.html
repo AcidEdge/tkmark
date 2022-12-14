@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/bootstrap.min.css" />
+     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/cdb.min.css" />   this is the one making the extra space at the top... used for charts??-->
+    <link rel="stylesheet" type="text/css" href="{% static 'results/main.css' %}">
+
+    {% if title %}
+        <title>TK-Mark Tracking - {{ title }}</title>
+    {% else %}
+        <title>TK-Mark Tracking</title>
+    {% endif %}
+</head>
+<body>
+    <header class="site-header">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+        <div class="container">
+          <a class="navbar-brand mr-4" href="{% url 'results-home' %}">TK-Mark Tracking</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+            <div class="navbar-nav mr-auto">
+              <a class="nav-item nav-link" href="{% url 'results-home' %}">Home</a>
+              <a class="nav-item nav-link" href="{% url 'results-about' %}">About</a>
+            </div>
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav">
+              {% if user.is_authenticated %}
+                <img class="rounded-circle article-img" src="{{ user.profile.image.url }}" style="width:40px;height:40px">
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ user.first_name }}
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'profile' %}">View Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'blog-home' %}">Announcements</a></li>
+                    {% if user.is_staff %}
+                    <li><a class="dropdown-item" href="{% url 'post-create' %}">New Announcement</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'new-results' %}">Enter Results</a></li>
+                    <li><a class="dropdown-item" href="{% url 'update-goals' %}">Update Goals</a></li>
+                    <li><a class="dropdown-item" href="{% url 'clear-results' %}">Clear Results</a></li>
+                    <li><a class="dropdown-item" href="{% url 'results-pdf' %}">Generate Report</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'register' %}">Add Manager</a></li>
+                    {% if user.is_superuser %}
+                    <li><hr class="dropdown-divider"></li>
+                     <li><a class="dropdown-item" href="/admin/">Admin</a></li>
+                    
+                    {% endif %}
+                    {% endif %}      
+                    <li><hr class="dropdown-divider"></li>              
+                    <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                  </ul>
+                </li>
+              {% else %}
+                <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main role="main" class="container">
+      <div class="row">
+        <div class="col-md-8">
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+          {% block content %}{% endblock %}
+        </div>
+        {% if user.is_authenticated %}
+        <div class="col-md-4">
+          <div class="content-section">
+            <h3>Latest Updates</h3>
+            <p class='text-muted'>
+              <ul class="list-group">
+                <li class="list-group-item list-group-item-light"><h5>Last Results Entered By: </h5>{{updated.update_by.first_name}} <br><i> {{updated.date_updated}}</i></li>
+                <li class="list-group-item list-group-item-light"><hr><h5>Announcements:</h5><a href="{% url 'blog-home' %}">{{news.title}}  </a><br>{{news.date_posted}}<br>Posted By: {{news.author.first_name}}</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </main>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cdbootstrap/js/cdb.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cdbootstrap/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/9d1d9a82d2.js" crossorigin="anonymous"></script>
+</body>
+<footer class="text-muted"><center><hr>The information contained within this site is proprietary and priviledged. All data contained herein is designed and dedicated to authorized users only.<br> Please speak with a site administrator to request access. <br>
+  {% if user.is_authenticated %}
+  {% else %}
+  
+  <a class="article-content" href="{% url 'login' %}">Login</a> to view site content.
+  {% endif %}
+</center>
+
+
+</footer>
+</html>

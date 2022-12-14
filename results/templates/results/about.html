@@ -1,0 +1,73 @@
+{% extends "results/base.html" %}
+{% block content %}
+{% load mathfilters %}
+<h1>Manager Tracking Expectations:</h1>
+    {% if user.is_authenticated %}
+    <article class="media content-section">
+      <img class="rounded-circle article-img" src="/media/site_media/gold_star.jpg">
+      <div class="media-body">
+        <h2><a class="article-title">5 Star Rankings</a></h2> <!--  add link to this result later on-->
+        <p class="article-content">Manager Rankings, based on M.A.S.O.N. System Results</p>
+        <p class="article-content">{{goals.star_goal}} or higher</p>
+        <p class="text-muted">Overall manager rankings based on points gained from each results catagory. Each catagory awards up to {{goals.points|sub:1}} points.
+          First place in each catagory gets {{goals.points|sub:1}} points, second place gets {{goals.points|sub:2}} points, etc. Last place in each catagory
+          receives 0 points. Points are then totaled and averaged between all catagories to get a final score. <br><i>Note: Number of points available in each catagory is based on number of managers being tracked.</i>
+        </p>
+      </div>
+    </article>
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="/media/site_media/traffic_light.jpg">
+          <div class="media-body">
+            <h2><a class="article-title">% of Green Dayparts</a></h2> <!--  add link to this result later on-->
+            <p class="article-content">{{goals.green_goal}}% or higher.</p>
+            <p class="text-muted">Calculated by number of green dayparts you worked divided by how many total dayparts you worked.</p>
+          </div>
+        </article>
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="/media/site_media/stopwatch.jpg">
+          <div class="media-body">
+            <h2><a class="article-title">SOS +/- Seconds vs Goal</a></h2> <!--  add link to this result later on-->
+            <p class="article-content">Under {{goals.seconds_goal}} </p>
+            <p class="text-muted">Calculated by total seconds over or under sos goals each daypart, divided by number of dayparts worked</p>
+          </div>
+        </article>
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="/media/site_media/note_card.jpg">
+          <div class="media-body">
+            <h2><a class="article-title">Number of CHAMPS Cards Given Out</a></h2> <!--  add link to this result later on-->
+            <p class="article-content">{{goals.champs_goal|div:100}} each shift worked</p>
+            <p class="text-muted">Calculated by total CHAMPS cards you gave out, divided by the number of shifts you worked. 
+            <br><i>Note: Cannot be higher than 100%</i></p>
+          </div>
+        </article>
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="/media/site_media/speech_bubble.jpg">
+          <div class="media-body">
+            <h2><a class="article-title">Number of times name mentioned in survey</a></h2> <!--  add link to this result later on-->
+            <p class="article-content">{{goals.mention_goal}} per period, or {{goals.mention_goal|div:4}} each week</p>
+            <p class="text-muted">How many times per week each mangager's name is mentioned in survey comments</p>
+        </article>
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="/media/site_media/gold_bell.jpg">
+          <div class="media-body">
+            <h2><a class="article-title">5 Bells</a></h2> <!--  add link to this result later on-->
+            <p class="article-content">{{goals.five_bells_goal}}% or higher</p>
+            <p class="text-muted">Percentage of "5's" on surveys that are submitted for dayparts you work.</p>
+        </article>
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="/media/site_media/angry.jpg">
+          <div class="media-body">
+            <h2><a class="article-title" >Dissatisfied</a></h2> <!--  add link to this result later on-->
+            <p class="article-content">Under {{goals.dissat_goal}}%</p>
+            <p class="text-muted">Percentage of 1's, 2's and 3's on surveys that are submitted for dayparts you work.</p>
+        </article>
+    {% else %}
+    <h1>About Page</h1>
+    <div>
+        <h3>This site is used for tracking results using the M.A.S.O.N. System. <br>Only authorized employees can access this system.</h3>
+    </div>
+    <div>
+    Please <a class="article-content" href="{% url 'login' %}">Login</a> to view site content. 
+    </div>
+    {% endif %}
+{% endblock content %}
