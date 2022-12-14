@@ -147,5 +147,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.mailgun.org'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER =''
-EMAIL_HOST_PASSWORD =''
+EMAIL_HOST_USER ='postmaster@tkmark.org'
+EMAIL_HOST_PASSWORD ='69d6768f0bcc79e5a3b06cfb68da2995-48d7d97c-6a6fb8c2'

@@ -222,4 +222,6 @@ def results_pdf(request):
         'updated' : Updated.objects.first(),
         'news' : Post.objects.order_by('-date_posted').first()
     }
+
+    #pdf code will go in here***
     return render(request,'results/result_pdf.html', context )
