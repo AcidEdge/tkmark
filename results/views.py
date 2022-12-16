@@ -16,11 +16,11 @@ from reportlab.lib.pagesizes import letter
 def home(request):
     context = {
         'greenresult' : GreenRed.objects.all().order_by('-green_percent', '-total_dayparts', '-green'),
-        'secondresult' : Second.objects.all().order_by('seconds_avg', 'seconds'),
-        'champs' : Champ.objects.all().order_by('-champs_percent', '-champs', '-shift'),
-        'mention' : Mention.objects.all().order_by('-mention'),
-        'fivebells': Survey.objects.all().order_by('-five_bells'),
-        'dissat' : Survey.objects.all().order_by('dissat', '-five_bells'),
+        'secondresult' : Second.objects.all().order_by('seconds_avg', '-green_percent', 'seconds'),
+        'champs' : Champ.objects.all().order_by('-champs_percent', '-green_percent', '-champs', '-shift'),
+        'mention' : Mention.objects.all().order_by('mention', '-green_percent'),
+        'fivebells': Survey.objects.all().order_by('-five_bells', '-green_percent'),
+        'dissat' : Survey.objects.all().order_by('dissat', '-green_percent', '-five_bells'),
         'goals': Goal.objects.first(),
         'starsresult' :Stars.objects.all().order_by('-stars_avg'),
         'updated' : Updated.objects.first(),
@@ -131,7 +131,7 @@ def new_results(request):
             green_results = GreenRed.objects.values_list('manager').order_by('green_percent', 'green', 'total_dayparts')
             second_results = Second.objects.values_list('manager').order_by('-seconds_avg', 'green_percent', '-seconds')
             champs_results = Champ.objects.values_list('manager').order_by('champs_percent', 'green_percent', 'champs', 'shift')
-            mention_results = Mention.objects.values_list('manager').order_by('mention', 'green_percent')
+            mention_results = Mention.objects.values_list('manager').order_by('-mention', 'green_percent')
             fivebells_results = Survey.objects.values_list('manager').order_by('five_bells', 'green_percent',)
             dissat_results = Survey.objects.values_list('manager').order_by('-dissat', 'green_percent', 'five_bells')
 #loop through results and assign points:

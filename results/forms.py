@@ -6,7 +6,7 @@ class GoalsForm(forms.ModelForm):
         model=Goal
         fields=['green_goal', 'seconds_goal', 'champs_goal', 'mention_goal', 'five_bells_goal', 'dissat_goal', 'star_goal']
         labels = {'green_goal': 'Green Dayparts %', 'seconds_goal': 'Avg Seconds vs Goal', 'champs_goal': 'Champs Cards %', 
-            'mention_goal': 'Survey Name Mentions', 'five_bells_goal': 'Five Bells %', 'dissat_goal': 'Dissat %', 'star_goal': '5 Star Goal'}
+            'mention_goal': '# of Loop Calls', 'five_bells_goal': 'Five Bells %', 'dissat_goal': 'Dissat %', 'star_goal': '5 Star Goal'}
 
 class GreenUpdate(forms.ModelForm):
     class Meta:
@@ -33,7 +33,7 @@ class MentionUpdate(forms.ModelForm):
     class Meta:
         model=Mention
         fields=['mention']
-        labels={'mention': '# of Survey Mentions'}
+        labels={'mention': '# of Loop Calls'}
 
 
 class SurveyUpdate(forms.ModelForm):

@@ -122,6 +122,7 @@
      <thead>
       <tr>
         <th scope="col">Manager</th>
+        <th scope="col"># of Shifts</th>
         <th scope="col">Cards Given Out</th>
         <th scope="col">Average Cards</th>
       </tr>
@@ -132,7 +133,9 @@
           <td>
               {{result.manager.first_name}}
           </td>
-             
+             <td>
+              {{result.shift}}
+          </td>
           <td>
               {{result.champs}}
           </td>
@@ -150,14 +153,13 @@
     </table>
     </article>
     <article class="media content-section">
-      <img class="rounded-circle article-img" src="/media/site_media/speech_bubble.jpg">
-        <p class="bold">Survey Name Mentions<br><br>Goal:<br>{{goals.mention_goal}} per period<br>({{goals.mention_goal|div:4}} per week)</p>
+      <img class="rounded-circle article-img" src="/media/site_media/red_phone.jpg">
+        <p class="bold">Loop Calls<br><br>Goal:<br>Under {{goals.mention_goal}} per period</p>
       <table class="table">
        <thead>
         <tr>
           <th scope="col">Manager</th>
-          <th scope="col">Mentions Total</th>
-          <th scope="col"> Avg Per Week</th>
+          <th scope="col"># of Loop Calls</th>
         </tr>
       </thead>
       <tbody>
@@ -167,21 +169,12 @@
                 {{result.manager.first_name}}
             </td>
             {% if result.mention >= goals.mention_goal %}
-          <td style="color: green">
+          <td style="color: red">
               {{result.mention}} 
           </td>
             {% else %}
-            <td style="color: red">
+            <td style="color: green">
               {{result.mention}} 
-          </td>
-          {% endif %}
-          {% if result.mention|div:4 >= goals.mention_goal|div:4 %}
-          <td style="color: green">
-              {{result.mention|div:4}} 
-          </td>
-            {% else %}
-            <td style="color: red">
-              {{result.mention|div:4}} 
           </td>
           {% endif %}
         </tr>
