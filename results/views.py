@@ -5,14 +5,10 @@ from django.shortcuts import render, redirect
 from .models import Goal, GreenRed, Second, Champ, Mention, Survey, Stars, Updated
 from .forms import GoalsForm, GreenUpdate, SecondUpdate, ChampUpdate, MentionUpdate, SurveyUpdate
 from updates.models import Post
-from django.http import FileResponse, HttpResponse
-import io
+from django.http import  HttpResponse
 from io import BytesIO
 from django.template.loader import get_template
 from xhtml2pdf import pisa
-from reportlab.pdfgen import canvas 
-from reportlab.lib.units import inch
-from reportlab.lib.pagesizes import letter
 
 
 def home(request):
@@ -39,7 +35,8 @@ def about(request):
         'news' : Post.objects.order_by('-date_posted').first()
     }
     return render(request, 'results/about.html', context)
-    
+
+
 
 #method for updating goals - gets goal update form and overwrites/updates goal table
 @login_required

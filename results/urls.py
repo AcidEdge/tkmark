@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
     path('', views.home, name='results-home'),
 
@@ -10,5 +11,6 @@ urlpatterns = [
     path('clear-results/', views.clear_results, name='clear-results'),
     path('results/', views.results_pdf, name='results-pdf' ),
     path('manager-result-report/', views.results_report, name='results-report'),
+
     
 ]
