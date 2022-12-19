@@ -1,17 +1,19 @@
 import datetime
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.shortcuts import render
 from django.shortcuts import render, redirect
 from .models import Goal, GreenRed, Second, Champ, Mention, Survey, Stars, Updated
 from .forms import GoalsForm, GreenUpdate, SecondUpdate, ChampUpdate, MentionUpdate, SurveyUpdate
 from updates.models import Post
-from django.http import FileResponse
+from django.http import FileResponse, HttpResponse
 import io
+from io import BytesIO
+from django.template.loader import get_template
+from xhtml2pdf import pisa
 from reportlab.pdfgen import canvas 
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
+
 
 def home(request):
     context = {
@@ -211,17 +213,54 @@ def clear_results(request):
             Survey.objects.filter(manager=man).update(ones=0, twos=0, threes=0, fours=0, fives=0, five_bells=0, dissat=0)
             Stars.objects.filter(manager=man).update(stars_total=0, stars_avg=0, green_stars=0, second_stars=0, 
                                 champ_stars=0, mention_stars=0, fivebell_stars=0, dissat_stars=0)
-        messages.warning(request, f'All results have been cleared.')
+        messages.error(request, f'All results have been cleared.')
         return redirect('results-home')
     return render(request, 'results/clear_results.html', context)
 
+#render pdf report from html using context data, returns pdf file in a reader view, 
+#uses results/pdf.html to render
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html  = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
+
+
 
 #generate pdf report 
-def results_pdf(request):
+def results_pdf(request, *args, **kwargs):
     context = {
+        'greenresult' : GreenRed.objects.all().order_by('-green_percent', '-total_dayparts', '-green'),
+        'secondresult' : Second.objects.all().order_by('seconds_avg', '-green_percent', 'seconds'),
+        'champs' : Champ.objects.all().order_by('-champs_percent', '-green_percent', '-champs', '-shift'),
+        'mention' : Mention.objects.all().order_by('mention', '-green_percent'),
+        'fivebells': Survey.objects.all().order_by('-five_bells', '-green_percent'),
+        'dissat' : Survey.objects.all().order_by('dissat', '-green_percent', '-five_bells'),
+        'goals': Goal.objects.first(),
+        'starsresult' :Stars.objects.all().order_by('-stars_avg'),
         'updated' : Updated.objects.first(),
         'news' : Post.objects.order_by('-date_posted').first()
     }
-
-    #pdf code will go in here***
     return render(request,'results/result_pdf.html', context )
+
+
+def results_report(request, *args, **kwargs):
+    context = {
+        'greenresult' : GreenRed.objects.all().order_by('-green_percent', '-total_dayparts', '-green'),
+        'secondresult' : Second.objects.all().order_by('seconds_avg', '-green_percent', 'seconds'),
+        'champs' : Champ.objects.all().order_by('-champs_percent', '-green_percent', '-champs', '-shift'),
+        'mention' : Mention.objects.all().order_by('mention', '-green_percent'),
+        'fivebells': Survey.objects.all().order_by('-five_bells', '-green_percent'),
+        'dissat' : Survey.objects.all().order_by('dissat', '-green_percent', '-five_bells'),
+        'goals': Goal.objects.first(),
+        'starsresult' :Stars.objects.all().order_by('-stars_avg'),
+        'updated' : Updated.objects.first(),
+        'news' : Post.objects.order_by('-date_posted').first()
+    }
+    #call render to pdf with context data. 
+    pdf = render_to_pdf('results/pdf.html', context)
+    return HttpResponse(pdf, content_type='application/pdf')
+    

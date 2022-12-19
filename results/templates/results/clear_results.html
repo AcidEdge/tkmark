@@ -10,8 +10,10 @@
                     feature is only meant for starting a new period, and should not be used at any other time.
                     This cannot be undone and there is no backup!
                 </p>
+                <p style="font-weight: bolder;">Make sure to print/save report first!!!</p>
             </fieldset>
             <div class="form-group">
+                <a class="btn btn-outline-success" href="{% url 'results-report' %}">Results Report</a>
                 <button class="btn btn-outline-danger" type="submit">Yes, Delete</button>
                 <a class="btn btn-outline-secondary" href="{% url 'results-home' %}">Cancel</a>
             </div>
