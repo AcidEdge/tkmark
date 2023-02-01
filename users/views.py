@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from results.models import *
 from updates.models import Post
-
+from django.contrib.auth.models import Group
+from attendance.models import Attendance
 
 def register(request):
     if request.method == 'POST':
@@ -19,7 +20,8 @@ def register(request):
     context = {
         'updated' : Updated.objects.first(),
         'form' : UserRegisterForm,
-        'news' : Post.objects.order_by('-date_posted').first()
+        'news' : Post.objects.order_by('-date_posted').first(),
+        'absence': Attendance.objects.order_by('-entered_on').first(),
     }
     return render(request, 'users/register.html', context)
 
@@ -28,7 +30,8 @@ def register(request):
 def profile(request):
     context = {
         'updated' : Updated.objects.first(),
-        'news' : Post.objects.order_by('-date_posted').first()
+        'news' : Post.objects.order_by('-date_posted').first(),
+        'absence': Attendance.objects.order_by('-entered_on').first(),
     }
     return render(request, 'users/profile.html', context)
 
@@ -53,7 +56,8 @@ def update_profile(request):
         'u_form': u_form,
         'p_form': p_form,
         'updated' : Updated.objects.first(),
-        'news' : Post.objects.order_by('-date_posted').first()
+        'news' : Post.objects.order_by('-date_posted').first(),
+        'absence': Attendance.objects.order_by('-entered_on').first(),
     }
 
     return render(request, 'users/update_profile.html', context)

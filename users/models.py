@@ -4,14 +4,15 @@ from PIL import Image
 from phonenumber_field.modelfields import PhoneNumberField
 
 
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = PhoneNumberField(region='US', blank=True)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
     
     def __str__(self):
-        return f'{self.user.username} Profile'
-
+        return f'{self.user.first_name} {self.user.last_name} Profile'
+    
     def save(self, *args, **kwargs):
         super(Profile, self).save(*args, **kwargs)
 

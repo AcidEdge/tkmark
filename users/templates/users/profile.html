@@ -8,10 +8,12 @@
             <h3 class="account-heading">{{ user.first_name }}'s Profile:  </h3>
             <h3 class="text-secondary">Username: {{ user.username }}</h3>
             <p class="text-secondary">Email: {{ user.email }}</p>
-            <p class="text-secondary">Phone Number: {{ user.profile.phone_number }}</p>
+            {% if user.is_staff %}
+            <p class="text-secondary">{{ user.profile.phone_number }}</p>
+            {% endif %}
           </div>
         </div>
       <a class="text-muted" href="{% url 'update_profile' %}">Update Profile</a><br>
-      <a class="text-muted" href="{% url 'password_reset' %}">Reset Password</a>
+      <a class="text-muted" href="{% url 'change-password' %}">Change Password</a>
     </div>
 {% endblock content %}

@@ -1,0 +1,432 @@
+{% load static %}
+{% load mathfilters %}
+<!DOCTYPE html>
+<html>
+<head>
+        <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/bootstrap.min.css" />
+     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/cdb.min.css" />   this is the one making the extra space at the top... used for charts??-->
+    <link rel="stylesheet" type="text/css" href="{% static 'results/main.css' %}">
+
+
+    <title>TK-Mark Reports - {{manager.first_name}} {{manager.last_name}} YTD</title>
+
+</head>
+<body>
+    <div>
+          <h1 style="text-align: center; font-size:140%;">5-Star Manager Results Report --- 2023 Year-to-Date results for: {{manager.first_name}} {{manager.last_name}}</h1>
+          Printed on: {{now}}
+          <hr>
+    </div>
+    <article class="media content-section">
+        <br><t style="font-size:110%; font-weight: bolder;"><u>5-Star Results -- Goal: Over {{goals.star_goal}}%</u></t><br><br>
+        <table class="table">
+          <tr>
+            <th scope="col" style="text-align: left;">P 1</th>
+            <th scope="col" style="text-align: left;">P 2</th>
+            <th scope="col" style="text-align: left;">P 3</th>
+            <th scope="col" style="text-align: left;">P 4</th>
+            <th scope="col" style="text-align: left;">P 5</th>
+            <th scope="col" style="text-align: left;">P 6</th>
+            <th scope="col" style="text-align: left;">P 7</th>
+            <th scope="col" style="text-align: left;">P 8</th>
+            <th scope="col" style="text-align: left;">P 9</th>
+            <th scope="col" style="text-align: left;">P 10</th>
+            <th scope="col" style="text-align: left;">P 11</th>
+            <th scope="col" style="text-align: left;">P 12</th>
+            <th scope="col" style="text-align: left;">P 13</th>
+            <th scope="col" style="text-align: left;">YTD</th>
+            <th scope="col" style="text-align: left;">Q 1</th>
+            <th scope="col" style="text-align: left;">Q 2</th>
+            <th scope="col" style="text-align: left;">Q 3</th>
+            <th scope="col" style="text-align: left;">Q 4</th>
+          </tr>
+        <tbody>
+          <tr>
+            {% for result in starsresult %}
+              {% if result.stars_avg >= goals.star_goal %}
+              <td style="color:green;">
+                  {{result.stars_avg}}
+              </td>
+              {% else %}
+              <td style="color:red;">
+                  {{result.stars_avg}}
+              </td>
+              {% endif %}
+              {% endfor %}
+          </tr>
+
+        </table>
+        </article><hr>
+      <article class="media content-section">
+          <t style="font-size:110%; font-weight: bolder;"><u>Green Dayparts Results -- Goal: Over {{goals.green_goal}}%</u></t><br><br>
+        <table class="table">
+         <thead>
+            <tr>
+                <th scope="col" style="text-align: left;">P 1</th>
+                <th scope="col" style="text-align: left;">P 2</th>
+                <th scope="col" style="text-align: left;">P 3</th>
+                <th scope="col" style="text-align: left;">P 4</th>
+                <th scope="col" style="text-align: left;">P 5</th>
+                <th scope="col" style="text-align: left;">P 6</th>
+                <th scope="col" style="text-align: left;">P 7</th>
+                <th scope="col" style="text-align: left;">P 8</th>
+                <th scope="col" style="text-align: left;">P 9</th>
+                <th scope="col" style="text-align: left;">P 10</th>
+                <th scope="col" style="text-align: left;">P 11</th>
+                <th scope="col" style="text-align: left;">P 12</th>
+                <th scope="col" style="text-align: left;">P 13</th>
+                <th scope="col" style="text-align: left;">YTD</th>
+                <th scope="col" style="text-align: left;">Q 1</th>
+                <th scope="col" style="text-align: left;">Q 2</th>
+                <th scope="col" style="text-align: left;">Q 3</th>
+                <th scope="col" style="text-align: left;">Q 4</th>
+              </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% for result in greenresult %}
+              {% if result.green_percent >= goals.green_goal %}
+              <td style="color:green;">
+                  {{result.green_percent}}%
+              </td>
+              {% else %}
+              <td style="color:red;">
+                  {{result.green_percent}}%
+              </td>
+              {% endif %}
+            {% endfor %}
+          </tr>
+        </table>
+        </article><hr>
+        <article class="media content-section">
+          <t style="font-size:110%; font-weight: bolder;"><u>Seconds +/- Daypart Goals Results -- Goal: Under {{goals.seconds_goal}} Seconds</u></t><br><br>
+        <table class="table">
+         <thead>
+          <tr>
+            <th scope="col" style="text-align: left;">P 1</th>
+            <th scope="col" style="text-align: left;">P 2</th>
+            <th scope="col" style="text-align: left;">P 3</th>
+            <th scope="col" style="text-align: left;">P 4</th>
+            <th scope="col" style="text-align: left;">P 5</th>
+            <th scope="col" style="text-align: left;">P 6</th>
+            <th scope="col" style="text-align: left;">P 7</th>
+            <th scope="col" style="text-align: left;">P 8</th>
+            <th scope="col" style="text-align: left;">P 9</th>
+            <th scope="col" style="text-align: left;">P 10</th>
+            <th scope="col" style="text-align: left;">P 11</th>
+            <th scope="col" style="text-align: left;">P 12</th>
+            <th scope="col" style="text-align: left;">P 13</th>
+            <th scope="col" style="text-align: left;">YTD</th>
+            <th scope="col" style="text-align: left;">Q 1</th>
+            <th scope="col" style="text-align: left;">Q 2</th>
+            <th scope="col" style="text-align: left;">Q 3</th>
+            <th scope="col" style="text-align: left;">Q 4</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% for result in secondresult %}
+              {% if goals.seconds_goal >= result.seconds_avg %}
+              <td style="color: green">
+                  {{result.seconds_avg}}
+              </td>
+                {% else %}
+                <td style="color: red">
+                  {{result.seconds_avg}}
+              </td>
+              {% endif %}
+          {% endfor %}
+          </tr>
+        </table>
+        </article><hr>
+        <article class="media content-section">
+            <t style="font-size:110%; font-weight: bolder;"><u>Champs Cards Given Out Results -- Goal: {{goals.champs_goal}}%</u></t><br><br>
+          <table class="table">
+           <thead>
+            <tr>
+                <th scope="col" style="text-align: left;">P 1</th>
+                <th scope="col" style="text-align: left;">P 2</th>
+                <th scope="col" style="text-align: left;">P 3</th>
+                <th scope="col" style="text-align: left;">P 4</th>
+                <th scope="col" style="text-align: left;">P 5</th>
+                <th scope="col" style="text-align: left;">P 6</th>
+                <th scope="col" style="text-align: left;">P 7</th>
+                <th scope="col" style="text-align: left;">P 8</th>
+                <th scope="col" style="text-align: left;">P 9</th>
+                <th scope="col" style="text-align: left;">P 10</th>
+                <th scope="col" style="text-align: left;">P 11</th>
+                <th scope="col" style="text-align: left;">P 12</th>
+                <th scope="col" style="text-align: left;">P 13</th>
+                <th scope="col" style="text-align: left;">YTD</th>
+                <th scope="col" style="text-align: left;">Q 1</th>
+                <th scope="col" style="text-align: left;">Q 2</th>
+                <th scope="col" style="text-align: left;">Q 3</th>
+                <th scope="col" style="text-align: left;">Q 4</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+            {% for result in champs %}
+                {% if result.champs_percent >= goals.champs_goal %}
+                <td style="color: green">
+                    {{result.champs_percent}}%
+                </td>
+                  {% else %}
+                  <td style="color: red">
+                    {{result.champs_percent}}%
+                </td>
+                {% endif %}
+            {% endfor %}
+            </tr>
+          </table>
+          </article><hr>
+          <article class="media content-section">
+            <t style="font-size:110%; font-weight: bolder;"><u>Zenputs Missed Results -- Goal: {{goals.zenput_goal}} or less</u></t><br><br>
+            <table class="table">
+             <thead>
+                <tr>
+                    <th scope="col" style="text-align: left;">P 1</th>
+                    <th scope="col" style="text-align: left;">P 2</th>
+                    <th scope="col" style="text-align: left;">P 3</th>
+                    <th scope="col" style="text-align: left;">P 4</th>
+                    <th scope="col" style="text-align: left;">P 5</th>
+                    <th scope="col" style="text-align: left;">P 6</th>
+                    <th scope="col" style="text-align: left;">P 7</th>
+                    <th scope="col" style="text-align: left;">P 8</th>
+                    <th scope="col" style="text-align: left;">P 9</th>
+                    <th scope="col" style="text-align: left;">P 10</th>
+                    <th scope="col" style="text-align: left;">P 11</th>
+                    <th scope="col" style="text-align: left;">P 12</th>
+                    <th scope="col" style="text-align: left;">P 13</th>
+                    <th scope="col" style="text-align: left;">YTD</th>
+                    <th scope="col" style="text-align: left;">Q 1</th>
+                    <th scope="col" style="text-align: left;">Q 2</th>
+                    <th scope="col" style="text-align: left;">Q 3</th>
+                    <th scope="col" style="text-align: left;">Q 4</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {% for result in zenput %}
+                  {% if period == 14 %}
+                    {% if goals.zenput_goal >= result.missed|div:13 %}
+                    <td style="color: green">
+                        {{result.missed|div:13}}
+                    </td>
+                      {% else %}
+                      <td style="color: red">
+                        {{result.missed|div:13}}
+                    </td>
+                    {% endif %}
+                  {% else %}
+                    {% if goals.zenput_goal >= result.missed %}
+                    <td style="color: green">
+                        {{result.missed}}
+                    </td>
+                      {% else %}
+                      <td style="color: red">
+                        {{result.missed}}
+                    </td>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+              </tr>
+            </table>
+            </article><hr>
+            <article class="media content-section">
+              <t style="font-size:110%; font-weight: bolder;"><u>Core Self Audits Completed -- Goal: {{goals.audit_goal}} per period</u></t><br><br>
+              <table class="table">
+               <thead>
+                  <tr>
+                      <th scope="col" style="text-align: left;">P 1</th>
+                      <th scope="col" style="text-align: left;">P 2</th>
+                      <th scope="col" style="text-align: left;">P 3</th>
+                      <th scope="col" style="text-align: left;">P 4</th>
+                      <th scope="col" style="text-align: left;">P 5</th>
+                      <th scope="col" style="text-align: left;">P 6</th>
+                      <th scope="col" style="text-align: left;">P 7</th>
+                      <th scope="col" style="text-align: left;">P 8</th>
+                      <th scope="col" style="text-align: left;">P 9</th>
+                      <th scope="col" style="text-align: left;">P 10</th>
+                      <th scope="col" style="text-align: left;">P 11</th>
+                      <th scope="col" style="text-align: left;">P 12</th>
+                      <th scope="col" style="text-align: left;">P 13</th>
+                      <th scope="col" style="text-align: left;">YTD</th>
+                      <th scope="col" style="text-align: left;">Q 1</th>
+                      <th scope="col" style="text-align: left;">Q 2</th>
+                      <th scope="col" style="text-align: left;">Q 3</th>
+                      <th scope="col" style="text-align: left;">Q 4</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  {% for result in audit %}
+                    {% if period == 14 %}
+                      {% if result.completed >= goals.audit_goal %}
+                      <td style="color: green">
+                          {{result.completed}}
+                      </td>
+                        {% else %}
+                        <td style="color: red">
+                          {{result.completed}}
+                      </td>
+                      {% endif %}
+                    {% else %}
+                      {% if result.completed >= goals.audit_goal %}
+                      <td style="color: green">
+                          {{result.completed}}
+                      </td>
+                        {% else %}
+                        <td style="color: red">
+                          {{result.completed}}
+                      </td>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                </tr>
+              </table>
+              </article><hr>
+          <article class="media content-section">
+              <t style="font-size:110%; font-weight: bolder;"><u>Loop Calls Results -- Goal: Under {{goals.mention_goal}} per period</u></t><br><br>
+            <table class="table">
+             <thead>
+                <tr>
+                    <th scope="col" style="text-align: left;">P 1</th>
+                    <th scope="col" style="text-align: left;">P 2</th>
+                    <th scope="col" style="text-align: left;">P 3</th>
+                    <th scope="col" style="text-align: left;">P 4</th>
+                    <th scope="col" style="text-align: left;">P 5</th>
+                    <th scope="col" style="text-align: left;">P 6</th>
+                    <th scope="col" style="text-align: left;">P 7</th>
+                    <th scope="col" style="text-align: left;">P 8</th>
+                    <th scope="col" style="text-align: left;">P 9</th>
+                    <th scope="col" style="text-align: left;">P 10</th>
+                    <th scope="col" style="text-align: left;">P 11</th>
+                    <th scope="col" style="text-align: left;">P 12</th>
+                    <th scope="col" style="text-align: left;">P 13</th>
+                    <th scope="col" style="text-align: left;">YTD</th>
+                    <th scope="col" style="text-align: left;">Q 1</th>
+                    <th scope="col" style="text-align: left;">Q 2</th>
+                    <th scope="col" style="text-align: left;">Q 3</th>
+                    <th scope="col" style="text-align: left;">Q 4</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {% for result in mention %}
+                {% if period == 14 %}
+                {% if goals.mention_goal >= result.mention|div:13 %}
+                <td style="color: green; font-weight: bolder;">
+                    {{result.mention|div:13}}
+                </td>
+                  {% else %}
+                  <td style="color: red">
+                    {{result.mention|div:13}}
+                </td>
+                {% endif %}
+              {% else %}
+                {% if goals.mention_goal >= result.mention %}
+                <td style="color: green">
+                    {{result.mention}}
+                </td>
+                  {% else %}
+                  <td style="color: red">
+                    {{result.mention}}
+                </td>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+              </tr>
+            </table>
+            </article><hr>
+              <article class="media content-section">
+                  <t style="font-size:110%; font-weight: bolder;"><u># of Dissat (Surveys) Results -- Goal: Under {{goals.dissat_goal}}</u></t><br><br>
+                <table class="table">
+                 <thead>
+                    <tr>
+                        <th scope="col" style="text-align: left;">P 1</th>
+                        <th scope="col" style="text-align: left;">P 2</th>
+                        <th scope="col" style="text-align: left;">P 3</th>
+                        <th scope="col" style="text-align: left;">P 4</th>
+                        <th scope="col" style="text-align: left;">P 5</th>
+                        <th scope="col" style="text-align: left;">P 6</th>
+                        <th scope="col" style="text-align: left;">P 7</th>
+                        <th scope="col" style="text-align: left;">P 8</th>
+                        <th scope="col" style="text-align: left;">P 9</th>
+                        <th scope="col" style="text-align: left;">P 10</th>
+                        <th scope="col" style="text-align: left;">P 11</th>
+                        <th scope="col" style="text-align: left;">P 12</th>
+                        <th scope="col" style="text-align: left;">P 13</th>
+                        <th scope="col" style="text-align: left;">YTD</th>
+                        <th scope="col" style="text-align: left;">Q 1</th>
+                        <th scope="col" style="text-align: left;">Q 2</th>
+                        <th scope="col" style="text-align: left;">Q 3</th>
+                        <th scope="col" style="text-align: left;">Q 4</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    {% for result in dissat %}
+                      {% if goals.dissat_goal >= result.dissat %}
+                      <td style="color: green">
+                          {{result.dissat|floatformat:0}}
+                      </td>
+                        {% else %}
+                        <td style="color: red">
+                          {{result.dissat|floatformat:0}}
+                      </td>
+                      {% endif %}
+                      {% endfor %}
+                  </tr>
+                </table>
+                </article>
+                <hr>
+              
+                <article class="media content-section">
+                  <t style="font-size:110%; font-weight: bolder;"><u>Last 30 days Attendance:</u></t><br><br>
+                  <table class="table">
+                   <thead>
+                    <tr>
+                      <th scope="col" style="text-align: left;">Date</th>
+                      <th scope="col" style="text-align: left;">Points</th>
+                      <th scope="col" style="text-align: left;">Type of Absence</th>
+                      <th scope="col" style="text-align: left;">Manager Notes</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for result in attendance %}
+                    <tr>
+                        <td>
+                          {{result.date}}
+                        </td>
+                        <td>
+                            {{result.points}}
+                        </td>
+                        <td>
+                          {{result.code}}
+                        </td>
+                        <td>
+                            {{result.notes}}
+                          </td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td style="font-weight: bold;">Total Points:</td>
+                        {% if points_total.points__sum >= 10 %}
+                        <td style="color: red; font-weight: bold;" >{{points_total.points__sum}}</td>
+                        {% elif points_total.points__sum >= 5 %}
+                        <td style="color: rgb(255, 102, 0); font-weight: bold;">{{points_total.points__sum}}</td>
+                        {% else %}
+                        <td style="color: green; font-weight: bold;">{{points_total.points__sum}}</td>
+                        {% endif %}
+                      </tr>
+                  </tbody>
+                  </table>
+                  </article>
+</body>

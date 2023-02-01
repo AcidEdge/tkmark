@@ -9,16 +9,18 @@ from django.views.generic import (
     DeleteView
 )
 from .models import Post
-
-
-
+from results.models import Updated, Streak
+from attendance.models import Attendance
 
 def home(request):
     context = {
-        'posts': Post.objects.all(),
-        'news' : Post.objects.order_by('-date_posted').first()
+        'posts': Post.objects.order_by('-date_posted').all(),
+        'news' : Post.objects.order_by('-date_posted').first(),
+        'updated' : Updated.objects.first(),
+        'absence': Attendance.objects.order_by('-entered_on').first(),
+        'streak': Streak.objects.first(),
     }
-    return render(request, '/updates/home.html', context)
+    return render(request, 'updates/home.html', context)
 
 
 class PostListView(ListView):
@@ -34,7 +36,7 @@ class UserPostListView(ListView):
     template_name = 'updates/user_posts.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
     paginate_by = 5
-
+    
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         return Post.objects.filter(author=user).order_by('-date_posted')

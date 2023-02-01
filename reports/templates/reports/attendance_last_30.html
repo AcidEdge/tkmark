@@ -1,0 +1,41 @@
+<h1 style="text-align: center; font-size:160%;">Attendance Report - Last 30 Days</h1>
+<hr>
+<article class="media content-section">
+    <h3 class="bold">Last 30 days Attendance:</h3>
+  <table class="table">
+   <thead>
+    <tr>
+        <th scope="col" style="text-align: left; text-decoration: underline;">Employee</th>
+        <th scope="col" style="text-align: left; text-decoration: underline;">Date</th>
+      <th scope="col" style="text-align: left; text-decoration: underline;">Points</th>
+      <th scope="col" style="text-align: left; text-decoration: underline;">Type of Absence</th>
+      <th scope="col" style="text-align: left; text-decoration: underline;">Manager Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for result in attendance %}
+    <tr>
+        <td>
+            {{result.employee.first_name}} {{result.employee.last_name}}
+          </td>
+        <td>
+          {{result.date}}
+        </td>
+        <td>
+            {{result.points}}
+        </td>
+        <td>
+          {{result.code}}
+        </td>
+        <td>
+            {{result.notes}}
+          </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  </table>
+  </article>
+  <hr>
+  
+    <footer style="font-size:90%;"><br>Printed on: {{now}}</footer>
+

@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,30 +9,80 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/bootstrap.min.css" />
-     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/cdb.min.css" />   this is the one making the extra space at the top... used for charts??-->
     <link rel="stylesheet" type="text/css" href="{% static 'results/main.css' %}">
-
+    <link rel="icon" type="image/x-icon" href="media/site_media/gold_star.jpg">
     {% if title %}
-        <title>TK-Mark Tracking - {{ title }}</title>
+        <title>TK-Mark Tracking System - {{ title }}</title>
     {% else %}
-        <title>TK-Mark Tracking</title>
+        <title>TK-Mark Tracking System</title>
     {% endif %}
+    <style>#div1 { height: 200px; width:250px; overflow-y: auto; }</style>
 </head>
 <body>
-    <header class="site-header">
-      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-        <div class="container">
-          <a class="navbar-brand mr-4" href="{% url 'results-home' %}">TK-Mark Tracking</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarToggle">
-            <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="{% url 'results-home' %}">Home</a>
-              <a class="nav-item nav-link" href="{% url 'results-about' %}">About</a>
+  <header class="site-header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-secondary fixed-top">
+      <div class="container">
+        <a class="navbar-brand mr-4" href="{% url 'results-home' %}">TK-Mark Tracking System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggle">
+          <div class="navbar-nav mr-auto">
+            <a class="nav-item nav-link" href="{% url 'results-home' %}">Home</a>
+            <a class="nav-item nav-link" href="{% url 'results-about' %}">About</a>
+            {% if user.is_staff %}
+            <a class="nav-item nav-link" href="{% url 'attendance-home' %}">Attendance</a>
+            <a class="nav-item nav-link" href="{% url 'blog-home' %}">Announcements</a>
+            <div class="dropdown">
+              <a href="#" class="dropdown-toggle nav-item nav-link" data-bs-toggle="dropdown">View Results</a>
+                <div class="dropdown-menu">
+                  <a href="{% url 'results-home' %}" class="dropdown-item">Current Period</a>
+                  <hr class="dropdown-divider">
+                  <a href="{% url 'past-results' 15 %}" class="dropdown-item">Quarter 1</a>
+                  <a href="{% url 'past-results' 16 %}" class="dropdown-item">Quarter 2</a>
+                  <a href="{% url 'past-results' 17 %}" class="dropdown-item">Quarter 2</a>
+                  <a href="{% url 'past-results' 18 %}" class="dropdown-item">Quarter 4</a>
+                  <a href="{% url 'past-results' 14 %}" class="dropdown-item">Year to Date</a>
+                  <hr class="dropdown-divider">
+                  <a href="{% url 'past-results' 1 %}" class="dropdown-item">Period 1</a>
+                  <a href="{% url 'past-results' 2 %}" class="dropdown-item">Period 2</a>
+                  <a href="{% url 'past-results' 3 %}" class="dropdown-item">Period 3</a>
+                  <a href="{% url 'past-results' 4 %}" class="dropdown-item">Period 4</a>
+                  <a href="{% url 'past-results' 5 %}" class="dropdown-item">Period 5</a>
+                  <a href="{% url 'past-results' 6 %}" class="dropdown-item">Period 6</a>
+                  <a href="{% url 'past-results' 7 %}" class="dropdown-item">Period 7</a>
+                  <a href="{% url 'past-results' 8 %}" class="dropdown-item">Period 8</a>
+                  <a href="{% url 'past-results' 9 %}" class="dropdown-item">Period 9</a>
+                  <a href="{% url 'past-results' 10 %}" class="dropdown-item">Period 10</a>
+                  <a href="{% url 'past-results' 11 %}" class="dropdown-item">Period 11</a>
+                  <a href="{% url 'past-results' 12 %}" class="dropdown-item">Period 12</a>
+                  <a href="{% url 'past-results' 13 %}" class="dropdown-item">Period 13</a>
+                </div>
             </div>
+            {% endif %}
+            {% if user.is_staff %}
+            <div class="dropdown">
+              <a href="#" class="dropdown-toggle nav-item nav-link" data-bs-toggle="dropdown">Admin</a>
+                <div class="dropdown-menu">
+                  <a href="{% url 'results-pdf' %}" class="dropdown-item">Reports</a>
+                  <a href="{% url 'attendance-form' %}" class="dropdown-item">Enter Absence</a>
+                  <a href="{% url 'post-create' %}" class="dropdown-item">New Announcement</a>
+                  {% if user.is_superuser %}
+                  <hr class="dropdown-divider">
+                  <a href="{% url 'new-results' %}" class="dropdown-item">Enter Results</a>
+                  <a href="{% url 'register' %}" class="dropdown-item">Add New User</a>
+                  <hr class="dropdown-divider">
+                  <a class="dropdown-item" href="/admin/">Admin Page</a>
+                  <a class="dropdown-item" href="{% url 'enter-sos' %}">Enter SOS</a>
+                  {% endif %}
+            {% endif %} 
+                </div>
+            </div>
+        </div>
+ 
+            
             <!-- Navbar Right Side -->
-            <div class="navbar-nav">
+            <div class="navbar-nav ml-auto">
               {% if user.is_authenticated %}
                 <img class="rounded-circle article-img" src="{{ user.profile.image.url }}" style="width:40px;height:40px">
                 <li class="nav-item dropdown">
@@ -43,31 +92,14 @@
                   <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="{% url 'profile' %}">View Profile</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{% url 'blog-home' %}">Announcements</a></li>
-                    {% if user.is_staff %}
-                    <li><a class="dropdown-item" href="{% url 'post-create' %}">New Announcement</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{% url 'new-results' %}">Enter Results</a></li>
-                    <li><a class="dropdown-item" href="{% url 'update-goals' %}">Update Goals</a></li>
-                    <li><a class="dropdown-item" href="{% url 'clear-results' %}">Clear Results</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{% url 'results-pdf' %}">Reports</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{% url 'register' %}">Add Manager</a></li>
-                    {% if user.is_superuser %}
-                    <li><hr class="dropdown-divider"></li>
-                     <li><a class="dropdown-item" href="/admin/">Admin</a></li>
-                    
-                    {% endif %}
-                    {% endif %}      
-                    <li><hr class="dropdown-divider"></li>              
                     <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                   </ul>
                 </li>
+                
               {% else %}
                 <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
               {% endif %}
-            </div>
+              </div>
           </div>
         </div>
       </nav>
@@ -82,20 +114,26 @@
               </div>
             {% endfor %}
           {% endif %}
-          {% block content %}{% endblock %}
+
+            {% block content %}{% endblock %}
         </div>
         {% if user.is_authenticated %}
-        <div class="col-md-4">
+        <div class="col-md-4" style="margin-top: 3.5%;">
           <div class="content-section">
             <h3>Latest Updates</h3>
             <p class='text-muted'>
-              <ul class="list-group">
-                <li class="list-group-item list-group-item-light"><h5>Last Results Entered By: </h5>{{updated.update_by.first_name}} <br><i> {{updated.date_updated}}</i></li>
-                <li class="list-group-item list-group-item-light"><hr><h5>Announcements:</h5><a href="{% url 'blog-home' %}">{{news.title}}  </a><br>{{news.date_posted}}<br>Posted By: {{news.author.first_name}}</li>
+                <li class="list-group-item list-group-item-light"><h5>Current Green Daypart Streak:</h5><b>{{streak.current}} Dayparts</b> <br><i>Longest Streak:  {{streak.longest}}</i></li>
+                {% if user.is_staff %}
+                <li class="list-group-item list-group-item-light"><hr><h5>Last Results Entered By: </h5>{{updated.update_by.first_name}} {{updated.update_by.last_name}} <br><i> {{updated.date_updated}}</i></li>
+                <li class="list-group-item list-group-item-light"><hr><h5>Announcements:</h5><a href="{% url 'blog-home' %}">{{news.title}}  </a><br>{{news.date_posted}}<br>Posted By: {{news.author.first_name}} {{news.author.last_name}}</li>
+                {% if absence.employee != null %}
+                <li class="list-group-item list-group-item-light"><hr><h5>Most Recent Absence: </h5><a>{{absence.employee.first_name}} {{absence.employee.last_name}}:</a> <i> {{absence.code}} on {{absence.date}}</i><br>Notes: <i>{{absence.notes}}</i></li>
+                {% endif %}
               </ul>
             </p>
           </div>
         </div>
+        {% endif %}
         {% endif %}
       </div>
     </main>
@@ -110,7 +148,7 @@
     <script src="https://cdn.jsdelivr.net/npm/cdbootstrap/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/9d1d9a82d2.js" crossorigin="anonymous"></script>
 </body>
-<footer class="text-muted"><center><hr>The information contained within this site is proprietary and priviledged. All data contained herein is designed and dedicated to authorized users only.<br> Please speak with a site administrator to request access. <br>
+<footer class="text-muted"><center><hr>The information contained within this site is proprietary and priviledged. All data contained herein is designed and dedicated to authorized users only.<br> Please speak with a site administrator to request access. <br>&copy; Witt Enterprises - 2023
   {% if user.is_authenticated %}
   {% else %}
   

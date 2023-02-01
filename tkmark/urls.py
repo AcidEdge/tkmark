@@ -48,8 +48,20 @@ urlpatterns = [
              template_name='users/password_reset_complete.html'
          ),
          name='password_reset_complete'),
+    path('password-change/',
+         auth_views.PasswordChangeView.as_view(
+             template_name='users/password_reset_confirm.html'
+         ),
+         name='change-password'),
+    path('password_change_done/',
+         auth_views.PasswordChangeDoneView.as_view(
+             template_name='users/password_reset_complete.html'
+         ),
+         name='password_change_done'),
     path('', include('results.urls')),
     path('', include('updates.urls')),
+    path('', include('attendance.urls')),
+    path('', include('reports.urls')),
 ]
 
 

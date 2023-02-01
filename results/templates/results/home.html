@@ -1,10 +1,11 @@
 {% extends "results/base.html" %}
 {% block content %}
 {% load mathfilters %}
-{% if user.is_authenticated %}
+{% if user.is_authenticated and user.is_staff %}
+<h2>Period {{period}} Results:</h2>
 <article class="media content-section">
-  <img class="rounded-circle article-img" src="media/site_media/gold_star.jpg">
-    <p class="bold">5 Stars-<br>Manager Rankings<br><br>Goal:<br>{{goals.star_goal}}</p>
+  <img class="rounded-circle article-img" src="/media/site_media/gold_star.jpg">
+    <p class="bold">5 Stars Supreme<br><br><br>Goal:<br>{{goals.star_goal}}</p>
   <table class="table">
    <thead>
     <tr>
@@ -36,7 +37,7 @@
   </table>
   </article>
 <article class="media content-section">
-  <img class="rounded-circle article-img" src="media/site_media/traffic_light.jpg">
+  <img class="rounded-circle article-img" src="/media/site_media/traffic_light.jpg">
     <p class="bold">Green Dayparts<br><br>Goal: <br>{{goals.green_goal}}%</p>
   <table class="table">
    <thead>
@@ -153,6 +154,64 @@
     </table>
     </article>
     <article class="media content-section">
+      <img class="rounded-circle article-img" src="/media/site_media/checklist.jpg">
+        <p class="bold">Missed Zenputs<br><br>Goal:<br>Under<br>{{goals.zenput_goal}}</p>
+      <table class="table">
+       <thead>
+        <tr>
+          <th scope="col">Manager</th>
+          <th scope="col">Missed Zenputs</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in zenput %}
+        <tr>
+            <td>
+                {{result.manager.first_name}}
+            </td>
+            {% if goals.zenput_goal > result.missed %}
+            <td style="color: green">
+                {{result.missed}}
+            </td>
+              {% else %}
+              <td style="color: red">
+                {{result.missed}}
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+      </table>
+      </article>
+      <article class="media content-section">
+      <img class="rounded-circle article-img" src="/media/site_media/audit.png">
+        <p class="bold">Self Audits<br><br>Goal:<br>{{goals.audit_goal}} Per Period</p>
+      <table class="table">
+       <thead>
+        <tr>
+          <th scope="col">Manager</th>
+          <th scope="col">Completed Self Audits</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in audit %}
+        <tr>
+            <td>
+                {{result.manager.first_name}}
+            </td>
+            {% if result.completed >= goals.audit_goal  %}
+            <td style="color: green">
+                {{result.completed}}
+            </td>
+              {% else %}
+              <td style="color: red">
+                {{result.completed}}
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+      </table>
+      </article>
+    <article class="media content-section">
       <img class="rounded-circle article-img" src="/media/site_media/red_phone.jpg">
         <p class="bold">Loop Calls<br><br>Goal:<br>Under {{goals.mention_goal}} per period</p>
       <table class="table">
@@ -181,43 +240,14 @@
         {% endfor %}
       </table>
       </article>
-      <article class="media content-section">
-        <img class="rounded-circle article-img" src="/media/site_media/gold_bell.jpg">
-          <p class="bold">5 Bells (Surveys)<br><br>Goal:<br>{{goals.five_bells_goal}}%</p>
-        <table class="table">
-         <thead>
-          <tr>
-            <th scope="col">Manager</th>
-            <th scope="col">5 Bells</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for result in fivebells %}
-          <tr>
-              <td>
-                  {{result.manager.first_name}}
-              </td>
-              {% if result.five_bells >= goals.five_bells_goal %}
-              <td style="color: green">
-                  {{result.five_bells}} %
-              </td>
-                {% else %}
-                <td style="color: red">
-                  {{result.five_bells}} %
-              </td>
-              {% endif %}
-          </tr>
-          {% endfor %}
-        </table>
-        </article>
         <article class="media content-section">
           <img class="rounded-circle article-img" src="/media/site_media/angry.jpg">
-            <p class="bold">Dissat (Surveys)<br><br>Goal:<br>Under<br>{{goals.dissat_goal}}%</p>
+            <p class="bold">Dissat (Surveys)<br><br>Goal:<br>Under<br>{{goals.dissat_goal}}</p>
           <table class="table">
            <thead>
             <tr>
               <th scope="col">Manager</th>
-              <th scope="col">Dissat</th>
+              <th scope="col"># of Dissat Surveys</th>
             </tr>
           </thead>
           <tbody>
@@ -228,17 +258,18 @@
                 </td>
                 {% if goals.dissat_goal >= result.dissat %}
                 <td style="color: green">
-                    {{result.dissat}}%
+                    {{result.dissat|floatformat:0}}
                 </td>
                   {% else %}
                   <td style="color: red">
-                    {{result.dissat}}%
+                    {{result.dissat|floatformat:0}}
                 </td>
                 {% endif %}
             </tr>
             {% endfor %}
           </table>
           </article>
+
 
 
     {% if is_paginated %}

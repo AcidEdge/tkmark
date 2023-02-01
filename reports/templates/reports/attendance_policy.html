@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+        <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/bootstrap.min.css" />
+     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/cdb.min.css" />   this is the one making the extra space at the top... used for charts??-->
+    <link rel="stylesheet" type="text/css" href="{% static 'results/main.css' %}">
+
+    {% if title %}
+        <title>TK-Mark Tracking - {{ title }}</title>
+    {% else %}
+        <title>TK-Mark Tracking</title>
+    {% endif %}
+</head>
+<body>
+<center><h1><b>Attendance Policy</b></h1></center>
+
+    <article class="media content-section">
+      <div class="media-body">
+        <p class="article-content"><b>Overview:</b><br>Regular attendance and punctuality are expected of all restaurant employees in order to ensure high-quality customer service and productivity. If an employee does not show up to work on time, it puts a burden on the entire team.</p>
+        <p class="article-content"><b>Scheduling:</b><br>Schedules are posted 2 weeks in advance. Time off requests must be submitted 3 weeks in advance to allow management time to complete the schedules. Once the schedule is posted each employee is responsible for their own shift. If an employee needs a day off or cannot work (where they know ahead of time) it is their own responsibility to find coverage for their shift or be at work when scheduled. Calling off on a day that you requested off (after the schedule was posted) is considered an unexcused absence.</p>
+        <p class="article-content"><b>Call-Offs:</b><br>Employees must arrive at work every day they are scheduled, on time and ready to work. If, due to illness or other legally-protected reason, the employee can't work a scheduled shift, the employee should call the restaurant until a manager is reached to the extent possible.</p>
+        <p class="article-content"><b>Late:</b><br>you are considered late if you clock in more than 5 minutes after the scheduled start of your shift. If you call the store and speak to the manager, the manager can approve the late start and you will not receive points for the late, but you must explain to the manager why you are late and what time you will be at work. Failure to call or failure to come to work when you promised will result in points being assessed. <br><br>All Policy infractions (Late, Tardy, Excessively Late and Unauthorized Absence) that are protected
+          by any federal, state, or local law will not be counted against employees. For example, an employee suddenly falls ill and is unable to call in or report to work, such an absence may be protected under certain paid sick leave laws.</p>
+        <p class="article-content"><b>Point System:</b><br>All attendance violations are assigned a point value. Instances of coming to work late, or unexcused absences are assessed points. Points stay on your record for 30 days and are cumulative. All employees can log into this system at anytime to view their current absences and assessed attendance points at anytime. It is the responsibility of each employee to know how many attendance points they have. <br><br>Violations of the Attendance Policy that are not subsequently excused will result in points being assessed to the employee, as follows:</p>
+        <p><table class="table" style="padding-left: 25px;">
+          <thead>
+           <tr>
+             <th scope="col" style="text-align: left; width: 350px; text-decoration:underline;">Infracton</th>
+             <th scope="col" style="text-align: left; text-decoration:underline;">Points</th>
+             <th scope="col" style="text-align: left; text-decoration:underline; padding-left: 0px;">Explanation</th>
+           </tr>
+         </thead>
+         <tbody>
+           <tr>
+             <td>5-14 minutes</td>
+               <td>1</td>
+               <td style="padding-left: 0px;">Late</td>
+           </tr>
+           <tr>
+            <td>15-30 minutes</td>
+              <td>3</td>
+              <td style="padding-left: 0px;">Tardy</td>
+          </tr>
+          <tr>
+            <td>31+ minutes</td>
+              <td>5</td>
+              <td style="padding-left: 0px;">Excessively Late</td>
+          </tr>
+          <tr>
+            <td>No Call No Show</td>
+              <td>10</td>
+              <td style="padding-left: 0px;">Unauthorized Absence</td>
+          </tr>
+          <tr>
+            <td>Call off less than 2 hours before shift, or unapproved reason</td>
+              <td>1</td>
+              <td style="padding-left: 0px;">Unauthorized Absence</td>
+          </tr>
+          <tr>
+            <td>Call off more than 2 hours before shift, for approved reason</td>
+              <td>0</td>
+              <td style="padding-left: 0px;">Unplanned Absence</td>
+          </tr>
+         </table>
+        </p><br><br>
+        <p class="article-content">An employee is considered "Late" if they clocks in 5 minutes to 14 minutes after the scheduled shift's start time. An employee is considered "Tardy" if the employee clocks in 15 minutes to 30 minutes after the scheduled shift's start time. An employee is considered "Excessively Late" if he/she/they clocks in 31 minutes or more after the scheduled shift's start time.</p>
+        <p class="article-content">An employee is considered to have an "Unauthorized Absence" if they fail to report for a scheduled shift in its entirety without adequate advance notice, where reasonably practical (i.e., a "No Call No Show").</p>
+        <p class="article-content"><b>Point Disciplinary Actions:</b><br>Employees who violate the Policy for any reason not protected by law or otherwise excused by the company may be subject to disciplinary action when the total points accumulated from the infractions stated above reach the following levels during any 30-day period. <br><br>The following Corrective Action may be taken by the company for violations of this Policy:</p>
+        <p><div style="padding-left: 25px;"><table class="table">
+          <thead>
+           <tr>
+             <th scope="col" style="text-align: left; width: 75px; text-decoration: underline;">Points</th>
+             <th scope="col" style="text-align: left; text-decoration: underline;">Corrective Action</th>
+           </tr>
+         </thead>
+         <tbody>
+           <tr>
+               <td>5</td>
+               <td>Verbal Warning</td>
+           </tr>
+           <tr>
+              <td>10</td>
+              <td>Written Warning</td>
+          </tr>
+          <tr>
+              <td>15</td>
+              <td>Termination</td>
+          </tr>
+         </table></div>
+        </p>
+        <p class="article-content">Employees who have established habitual attendance infractions may be subject to discipline before they reach the maximum allowed infractions. In addition, the company reserves the right to terminate an employee at any time with or without cause, provided such termination is not in violation of any applicable federal, state, or local laws. Employees who miss work for any reason protected by federal, state, or local laws or who are excused by their manager will not be subject to discipline</p>
+        <p class="article-content">Employees who receive Corrective Action under this policy are expected to work on and improve attendance immediately. In order to encourage employees to improve their attendance, the company will reward those employees who demonstrate consistent and ongoing improvement. Any employee who has improved his or her performance under this policy such that no infractions occur during any consecutive 30 day period may receive a clearance of his/her/their record. Such clearance is at the General Managers's discretion.</p>
+        <p class="article-content"><b>Unplanned Absences("Call-Offs")</b><br>If any employee calls in more than 2 hours prior to the start of a shift, this will be considered an "unplanned absence" or "call-off". If more than two call-offs occur within any 30-day period, the GM will have a coaching session with the employee to determine the cause of the multiple call-offs.. Unless the employee's absences are protected by applicable state or federal law, the employee may be subject to disciplinary action, up to and including termination. Vacation days are not counted as unplanned absences.</p>
+        <p class="article-content"><b>Employment At-Will</b><br>Nothing contained in this Policy alters the employee at-will relationship. This means that any employee may be terminated by the company at any time, with or without cause, and that the employee may terminate his/her/their employment with the company at any time with or without advance notice.</p>
+      
+      </div>
+    </article>
+</body>
+<footer style="font-size:90%;"><br>Printed on: {{now}}</footer>

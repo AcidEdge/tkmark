@@ -1,0 +1,23 @@
+{% extends "results/base.html" %}
+{% block content %}
+  <article class="media content-section">
+    <img class="rounded-circle article-img" src="/media/site_media/absent1.jpg">
+    <div class="media-body">
+      <div class="article-metadata">
+        <a class="mr-2">Entered By: {{ object.entered_by }} on: </a>
+        <small class="text-muted">{{ object.entered_on |date:"F d, Y" }}</small>
+        {% if user.is_superuser %}
+          <div>
+            <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{% url 'absence-update' object.id %}">Update</a>
+            <a class="btn btn-outline-danger btn-sm mt-1 mb-1" href="{% url 'absence-delete' object.id %}">Delete</a>
+          </div>
+        {% endif %}
+      </div>
+      <h2 class="article-title">Date: {{ object.date }}</h2>
+      <p class="article-content">Type of Absence: {{ object.code }}</p>
+      <p class="article-content">Points: {{ object.points }}</p>
+      <p class="article-content">Notes: {{ object.notes }}</p>
+    </div>
+  </article>
+  <a class="btn btn-outline-info mb-4" href="{% url 'attendance-home' %}">Back</a>
+{% endblock content %}

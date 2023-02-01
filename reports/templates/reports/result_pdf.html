@@ -1,0 +1,87 @@
+{% extends "results/base.html" %}
+{% block content %}
+{% load mathfilters %}
+{% if user.is_authenticated %}
+
+<h1>TK-Mark System Reports:</h1>
+<article class="media content-section">
+  <img class="rounded-circle article-img" src="/media/site_media/goals.jpg">
+  <div class="media-body">
+    <h2>5 Stars Goals Matrix</h2>   
+      <a href="{% url 'goals-pdf' %}" target="_blank" style="padding-left: 17px;">Download/View Matrix</a>
+      
+      
+  </div>
+</article>
+    <article class="media content-section">
+      <img class="rounded-circle article-img" src="/media/site_media/gold_star.jpg">
+      <div class="media-body">
+        <h2>5 Stars Report by Period</h2>
+        <p class="text-muted"><i>Period manager results report with 5 star manager results</i>
+        </p>
+        
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Select Report Period</a>
+          <ul id="div1" class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'results-report' 19 %}" target="_blank">Current Period</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{% url 'results-report' 15 %}" target="_blank">Quarter 1</a></li>
+            <li><a class="dropdown-item" href="{% url 'results-report' 16 %}" target="_blank">Quarter 2</a></li>
+            <li><a class="dropdown-item" href="{% url 'results-report' 17 %}" target="_blank">Quarter 3</a></li>
+            <li><a class="dropdown-item" href="{% url 'results-report' 18 %}" target="_blank">Quarter 4</a></li>
+            <li><a class="dropdown-item" href="{% url 'results-report' 14 %}" target="_blank">Year to Date</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{% url 'results-report' 1 %}" target="_blank">Period 1</a></li>
+            <li><a class="dropdown-item" href="{% url 'results-report' 2 %}" target="_blank">Period 2</a></li>
+            <li><a class="dropdown-item" href="{% url 'results-report' 3 %}" target="_blank">Period 3</a></li>
+            <li><a class="dropdown-item" href="{% url 'results-report' 4 %}" target="_blank">Period 4</a></li>
+            <li><a class="dropdown-item" href="{% url 'results-report' 5 %}" target="_blank">Period 5</a></li>
+            <li><a class="dropdown-item" href="{% url 'results-report' 6 %}" target="_blank">Period 6</a></li>
+            <li><a class="dropdown-item" href="{% url 'results-report' 7 %}" target="_blank">Period 7</a></li>
+            <li><a class="dropdown-item" href="{% url 'results-report' 8 %}" target="_blank">Period 8</a></li>
+            <li><a class="dropdown-item" href="{% url 'results-report' 9 %}" target="_blank">Period 9</a></li>
+            <li><a class="dropdown-item" href="{% url 'results-report' 10 %}" target="_blank">Period 10</a></li>
+            <li><a class="dropdown-item" href="{% url 'results-report' 11 %}" target="_blank">Period 11</a></li>
+            <li><a class="dropdown-item" href="{% url 'results-report' 12 %}" target="_blank">Period 12</a></li>
+            <li><a class="dropdown-item" href="{% url 'results-report' 13 %}" target="_blank">Period 13</a></li>
+          </ul>
+      </div>
+    </article>
+    <article class="media content-section">
+      <img class="rounded-circle article-img" src="/media/site_media/gold_star.jpg">
+      <div class="media-body">
+        <h2>5 Stars Report by Manager</h2>
+        <p class="text-muted"><i>Manager results report for individual managers, with full year results</i>
+        </p>
+        <div>
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Select Manager</a>
+          <ul class="dropdown-menu">
+            {% for result in manager %}
+            <li><a class="dropdown-item" href="{% url 'manager-results-report' result.id %}" target="_blank">{{result.first_name}} {{result.last_name}}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </article>
+    <article class="media content-section">
+      <img class="rounded-circle article-img" src="/media/site_media/absent1.jpg">
+      <div class="media-body">
+        <h2>Attendance Reports</h2>
+        <p class="text-muted"><i>Attendance reports for entire team.</i>
+        </p>
+          <a href="{% url 'attendance-policy-pdf' %}" style="padding-left: 17px;" target="_blank">Attendance Policy</a><br>
+          <a href="{% url 'attendance-last-30' %}" style="padding-left: 17px;" target="_blank">All Attendance for the last 30-Days</a>
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Select Employee</a>
+          <ul id="div1" class="dropdown-menu">
+            {% for result in employee %}
+            <li><a class="dropdown-item" href="{% url 'employee-attendance-report' result.id %}" target="_blank">{{result.first_name}} {{result.last_name}}</a></li>
+            {% endfor %}
+          </ul>
+          
+          
+      </div>
+    </article>
+    {% endif %}
+    {% endblock content %}

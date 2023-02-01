@@ -1,0 +1,289 @@
+{% extends "results/base.html" %}
+{% block content %}
+{% load mathfilters %}
+{% if user.is_authenticated %}
+  {% if period == ytd %}
+    <h2>Year to Date Results:</h2>
+  {% elif period == 15 %}
+    <h2>Quarter 1 Results:</h2>
+  {% elif period == 16 %}
+    <h2>Quarter 2 Results:</h2>
+  {% elif period == 17 %}
+    <h2>Quarter 3 Results:</h2>
+  {% elif period == 18 %}
+    <h2>Quarter 4 Results:</h2>
+  {% else %}
+    <h2>Period {{period}} Results:</h2>
+  {% endif %}
+<article class="media content-section">
+  <img class="rounded-circle article-img" src="/media/site_media/gold_star.jpg">
+  <p class="bold">5 Stars Supreme<br><br><br>Goal:<br>{{goals.star_goal}}</p>
+  <table class="table">
+   <thead>
+    <tr>
+      <th scope="col">Manager</th>
+      <th scope="col">Total Points</th>
+      <th scope="col">Stars</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for result in starsresult %}
+    <tr>
+        <td>
+          {{result.manager.first_name}}
+        </td>
+        <td>
+            {{result.stars_total}}
+        </td>
+        {% if result.stars_avg >= goals.star_goal %}
+        <td style="color:green;">
+            {{result.stars_avg}}
+        </td>
+        {% else %}
+        <td style="color:red;">
+            {{result.stars_avg}}
+        </td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+  </table>
+  </article>
+<article class="media content-section">
+  <img class="rounded-circle article-img" src="/media/site_media/traffic_light.jpg">
+    <p class="bold">Green Dayparts<br><br>Goal: <br>{{goals.green_goal}}%</p>
+  <table class="table">
+   <thead>
+    <tr>
+      <th scope="col">Manager</th>
+      <th scope="col">Green Dayparts</th>
+      <th scope="col">Red Dayparts</th>
+      <th scope="col">Total Dayparts</th>
+      <th scope="col">Green %</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for result in greenresult %}
+    <tr>
+        <td>
+            {{result.manager.first_name}}
+        </td>
+        <td>
+            {{result.green}}
+        </td>
+        <td>
+            {{result.red}}
+        </td>
+        <td>
+            {{result.total_dayparts}}
+        </td>
+        {% if result.green_percent >= goals.green_goal %}
+        <td style="color:green;">
+            {{result.green_percent}}%
+        </td>
+        {% else %}
+        <td style="color:red;">
+            {{result.green_percent}}%
+        </td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+  </table>
+  </article>
+  <article class="media content-section">
+  <img class="rounded-circle article-img" src="/media/site_media/stopwatch.jpg">
+    <p class="bold">Seconds +/- Daypart Goals<br><br>Goal: <br>Under {{goals.seconds_goal}}<br>Seconds</p>
+  <table class="table">
+   <thead>
+    <tr>
+      <th scope="col">Manager</th>
+      <th scope="col"> Seconds Total</th>
+      <th scope="col">Seconds Average</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for result in secondresult %}
+    <tr>
+        <td>
+            {{result.manager.first_name}}
+        </td>
+           {% if goals.seconds_goal >= result.seconds %}
+        <td style="color: green">
+            {{result.seconds}}
+        </td>
+          {% else %}
+          <td style="color: red">
+            {{result.seconds}}
+        </td>
+        {% endif %}
+        {% if goals.seconds_goal >= result.seconds_avg %}
+        <td style="color: green">
+            {{result.seconds_avg}}
+        </td>
+          {% else %}
+          <td style="color: red">
+            {{result.seconds_avg}}
+        </td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+  </table>
+  </article>
+  <article class="media content-section">
+    <img class="rounded-circle article-img" src="/media/site_media/note_card.jpg">
+      <p class="bold">Champs Cards Given Out<br><br>Goal:<br>{{goals.champs_goal}}%</p>
+    <table class="table">
+     <thead>
+      <tr>
+        <th scope="col">Manager</th>
+        <th scope="col"># of Shifts</th>
+        <th scope="col">Cards Given Out</th>
+        <th scope="col">Average Cards</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for result in champs %}
+      <tr>
+          <td>
+              {{result.manager.first_name}}
+          </td>
+             <td>
+              {{result.shift}}
+          </td>
+          <td>
+              {{result.champs}}
+          </td>
+          {% if result.champs_percent >= goals.champs_goal %}
+          <td style="color: green">
+              {{result.champs_percent}}%
+          </td>
+            {% else %}
+            <td style="color: red">
+              {{result.champs_percent}}%
+          </td>
+          {% endif %}
+      </tr>
+      {% endfor %}
+    </table>
+    </article>
+    <article class="media content-section">
+      <img class="rounded-circle article-img" src="/media/site_media/checklist.jpg">
+        <p class="bold">Missed Zenputs<br><br>Goal:<br>Under<br>{{goals.zenput_goal}}</p>
+      <table class="table">
+       <thead>
+        <tr>
+          <th scope="col">Manager</th>
+          <th scope="col">Missed Zenputs</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in zenput %}
+        <tr>
+            <td>
+                {{result.manager.first_name}}
+            </td>
+              {% if goals.zenput_goal >= result.missed %}
+                <td style="color: green">
+                {{result.missed}}
+                </td>
+              {% else %}
+                <td style="color: red">
+                {{result.missed}}
+                </td>
+              {% endif %}
+        </tr>
+        {% endfor %}
+      </table>
+      </article>
+      <article class="media content-section">
+        <img class="rounded-circle article-img" src="/media/site_media/audit.png">
+          <p class="bold">Self Audits<br><br>Goal:<br>{{goals.audit_goal}} Per Period</p>
+        <table class="table">
+         <thead>
+          <tr>
+            <th scope="col">Manager</th>
+            <th scope="col">Completed Self Audits</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for result in audit %}
+          <tr>
+              <td>
+                  {{result.manager.first_name}}
+              </td>
+              {% if result.completed >= goals.audit_goal  %}
+              <td style="color: green">
+                  {{result.completed}}
+              </td>
+                {% else %}
+                <td style="color: red">
+                  {{result.completed}}
+              </td>
+              {% endif %}
+          </tr>
+          {% endfor %}
+        </table>
+        </article>
+    <article class="media content-section">
+      <img class="rounded-circle article-img" src="/media/site_media/red_phone.jpg">
+        <p class="bold">Loop Calls<br><br>Goal:<br>Under {{goals.mention_goal}} per period</p>
+      <table class="table">
+       <thead>
+        <tr>
+          <th scope="col">Manager</th>
+          <th scope="col"># of Loop Calls</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in mention %}
+        <tr>
+            <td>
+                {{result.manager.first_name}}
+            </td>
+            {% if result.mention >= goals.mention_goal %}
+          <td style="color: red">
+              {{result.mention}} 
+          </td>
+            {% else %}
+            <td style="color: green">
+              {{result.mention}} 
+          </td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </table>
+      </article>
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="/media/site_media/angry.jpg">
+            <p class="bold">Dissat (Surveys)<br><br>Goal:<br>Under<br>{{goals.dissat_goal}}</p>
+          <table class="table">
+           <thead>
+            <tr>
+              <th scope="col">Manager</th>
+              <th scope="col"># of Dissat Surveys</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for result in dissat %}
+            <tr>
+                <td>
+                    {{result.manager.first_name}}
+                </td>
+                {% if goals.dissat_goal >= result.dissat %}
+                <td style="color: green">
+                    {{result.dissat|floatformat:0}}
+                </td>
+                  {% else %}
+                  <td style="color: red">
+                    {{result.dissat|floatformat:0}}
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+          </table>
+          </article>
+
+
+    
+{% endif %}
+
+{% endblock content %}

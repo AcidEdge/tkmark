@@ -21,11 +21,23 @@
 </head>
 <body>
     <div>
-        <h1 style="text-align: center; font-size:140%;">Manager Results Report</h1>
+        {% if period == ytd %}
+          <h1 style="text-align: left; font-size:140%;">5-Star Manager Results Report --- Year to Date</h1>
+        {% elif period == 15 %}
+        <h1 style="text-align: left; font-size:140%;">5-Star Manager Results Report --- Quarter 1</h1>
+        {% elif period == 16 %}
+        <h1 style="text-align: left; font-size:140%;">5-Star Manager Results Report --- Quarter 2</h1>
+        {% elif period == 17 %}
+        <h1 style="text-align: left; font-size:140%;">5-Star Manager Results Report --- Quarter 3</h1>
+        {% elif period == 18 %}
+        <h1 style="text-align: left; font-size:140%;">5-Star Manager Results Report --- Quarter 4</h1>
+        {% else %}
+          <h1 style="text-align: center; font-size:140%;">5-Star Manager Results Report --- Period {{period}}</h1>
+        {% endif %}
         <hr>
     </div>
     <article class="media content-section">
-        <t style="font-size:110%; font-weight: bolder;">5 Stars - Manager Rankings - Results Goal: Over {{ goals.star_goal }}</t>
+        
         <table class="table">
           <tr>
             <th scope="col" style="text-align: left;">Manager</th>
@@ -55,7 +67,7 @@
         </table>
         </article><hr>
       <article class="media content-section">
-          <t style="font-size:110%; font-weight: bolder;">Green Dayparts - Results Goal: Over {{goals.green_goal}}%</t>
+          <t style="font-size:110%; font-weight: bolder;">Green Dayparts Results -- Goal: Over {{goals.green_goal}}%</t>
         <table class="table">
          <thead>
           <tr>
@@ -95,7 +107,7 @@
         </table>
         </article><hr>
         <article class="media content-section">
-          <t style="font-size:110%; font-weight: bolder;">Seconds +/- Daypart Goals - Results Goal: Under {{goals.seconds_goal}} Seconds</t>
+          <t style="font-size:110%; font-weight: bolder;">Seconds +/- Daypart Goals Results -- Goal: Under {{goals.seconds_goal}} Seconds</t>
         <table class="table">
          <thead>
           <tr>
@@ -133,7 +145,7 @@
         </table>
         </article><hr>
         <article class="media content-section">
-            <t style="font-size:110%; font-weight: bolder;">Champs Cards Given Out - Results Goal: {{goals.champs_goal}}%</t>
+            <t style="font-size:110%; font-weight: bolder;">Champs Cards Given Out Results -- Goal: {{goals.champs_goal}}%</t>
           <table class="table">
            <thead>
             <tr>
@@ -169,13 +181,73 @@
           </table>
           </article><hr>
           <article class="media content-section">
-              <t style="font-size:110%; font-weight: bolder;">Loop Calls - Results Goal: Under {{goals.mention_goal}} per period</t>
+            <t style="font-size:110%; font-weight: bolder;">Zenputs Missed Results -- Goal: {{goals.zenput_goal}} or less</t>
             <table class="table">
              <thead>
+            </thead>
+            <tbody>
+              {% for result in zenput %}
               <tr>
-                <th scope="col" style="text-align: left;">Manager</th>
-                <th scope="col" style="text-align: left;"># of Loop Calls</th>
+                  <td>
+                      {{result.manager.first_name}}
+                  </td>
+                  {% if period == 14 %}
+                    {% if goals.zenput_goal >= result.missed|div:13 %}
+                    <td style="color: green">
+                        {{result.missed|div:13}}
+                    </td>
+                      {% else %}
+                      <td style="color: red">
+                        {{result.missed|div:13}}
+                    </td>
+                    {% endif %}
+                  {% else %}
+                    {% if goals.zenput_goal >= result.missed %}
+                    <td style="color: green">
+                        {{result.missed}}
+                    </td>
+                      {% else %}
+                      <td style="color: red">
+                        {{result.missed}}
+                    </td>
+                    {% endif %}
+                  {% endif %}
               </tr>
+              {% endfor %}
+            </table>
+            </article><hr>
+            <article class="media content-section">
+              <t style="font-size:110%; font-weight: bolder;">Core Self Audits -- Goal: {{goals.audit_goal}} per period</t>
+              <table class="table">
+               <thead>
+                <tr>
+                  <th scope="col" style="text-align: left;">Manager</th>
+                  <th scope="col" style="text-align: left;">Completed Self Audits</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for result in audit %}
+                <tr>
+                    <td>
+                        {{result.manager.first_name}}
+                    </td>
+                    {% if result.completed >= goals.audit_goal  %}
+                    <td style="color: green">
+                        {{result.completed}}
+                    </td>
+                      {% else %}
+                      <td style="color: red">
+                        {{result.completed}}
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+              </table>
+              </article><hr>
+          <article class="media content-section">
+              <t style="font-size:110%; font-weight: bolder;">Loop Calls Results -- Goal: Under {{goals.mention_goal}} per period</t>
+            <table class="table">
+             <thead>
             </thead>
             <tbody>
               {% for result in mention %}
@@ -196,52 +268,19 @@
               {% endfor %}
             </table>
             </article><hr>
-            <article class="media content-section">
-                <t style="font-size:110%; font-weight: bolder;">5 Bells (Surveys) - Results Goal: {{goals.five_bells_goal}}%</t>
-              <table class="table">
-               <thead>
-                <tr>
-                  <th scope="col" style="text-align: left;">Manager</th>
-                  <th scope="col" style="text-align: left;">Survey 5's</th>
-                  <th scope="col" style="text-align: left;">Survey 4's</th>
-                  <th scope="col" style="text-align: left;">5 Bells</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for result in fivebells %}
-                <tr>
-                    <td>
-                        {{result.manager.first_name}}
-                    </td>
-                    <td>
-                      {{result.fives}}
-                    </td>
-                    <td>
-                      {{result.fours}}
-                    </td>
-                    {% if result.five_bells >= goals.five_bells_goal %}
-                    <td style="color: green">
-                        {{result.five_bells}} %
-                    </td>
-                      {% else %}
-                      <td style="color: red">
-                        {{result.five_bells}} %
-                    </td>
-                    {% endif %}
-                </tr>
-                {% endfor %}
-              </table>
-              </article>
-              <article class="media content-section"><hr>
-                  <t style="font-size:110%; font-weight: bolder;">Dissat (Surveys) - Results Goal: Under {{goals.dissat_goal}}%</t>
+              <article class="media content-section">
+                  <t style="font-size:110%; font-weight: bolder;">Surveys Results -- Dissat Goal: Under {{goals.dissat_goal}}</t>
                 <table class="table">
                  <thead>
                   <tr>
                     <th scope="col" style="text-align: left;">Manager</th>
+                    <th scope="col" style="text-align: left;">Survey 5's</th>
+                    <th scope="col" style="text-align: left;">Survey 4's</th>
                     <th scope="col" style="text-align: left;">Survey 3's</th>
                     <th scope="col" style="text-align: left;">Survey 2's</th>
                     <th scope="col" style="text-align: left;">Survey 1's</th>
-                    <th scope="col" style="text-align: left;">Dissat</th>
+                    <th scope="col" style="text-align: left;">5 Bells</th>
+                    <th scope="col" style="text-align: left;"># of Dissat</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -249,6 +288,12 @@
                   <tr>
                       <td>
                           {{result.manager.first_name}}
+                      </td>
+                      <td>
+                        {{result.fives}}
+                      </td>
+                      <td>
+                        {{result.fours}}
                       </td>
                       <td>
                         {{result.threes}}
@@ -259,13 +304,16 @@
                       <td>
                         {{result.ones}}
                       </td>
+                      <td>
+                        {{result.five_bells}} %
+                    </td>
                       {% if goals.dissat_goal >= result.dissat %}
                       <td style="color: green">
-                          {{result.dissat}}%
+                          {{result.dissat|floatformat:0}}
                       </td>
                         {% else %}
                         <td style="color: red">
-                          {{result.dissat}}%
+                          {{result.dissat|floatformat:0}}
                       </td>
                       {% endif %}
                   </tr>
@@ -273,3 +321,4 @@
                 </table>
                 </article>
 </body>
+<footer style="font-size:90%;"><br>Printed on: {{now}}</footer>

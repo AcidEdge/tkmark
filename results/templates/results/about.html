@@ -1,17 +1,15 @@
 {% extends "results/base.html" %}
 {% block content %}
 {% load mathfilters %}
-<h1>Manager Tracking Expectations:</h1>
+<h1>Manager Expectations:</h1>
     {% if user.is_authenticated %}
     <article class="media content-section">
       <img class="rounded-circle article-img" src="/media/site_media/gold_star.jpg">
       <div class="media-body">
-        <h2><a class="article-title">5 Star Rankings</a></h2> <!--  add link to this result later on-->
-        <p class="article-content">Manager Rankings, based on M.A.S.O.N. System Results</p>
-        <p class="article-content">{{goals.star_goal}} or higher</p>
-        <p class="text-muted">Overall manager rankings based on points gained from each results catagory. Each catagory awards up to {{goals.points|sub:1}} points.
-          First place in each catagory gets {{goals.points|sub:1}} points, second place gets {{goals.points|sub:2}} points, etc. Last place in each catagory
-          receives 0 points. Points are then totaled and averaged between all catagories to get a final score. <br><i>Note: Number of points available in each catagory is based on number of managers being tracked.</i>
+        <h2><a class="article-title">5 Star Results</a></h2> <!--  add link to this result later on-->
+        <p class="article-content">Goal: {{goals.star_goal}} stars or higher</p>
+        <p class="text-muted">Overall manager results based on stars gained from each results catagory. Total stars are divided by number of catagories to get the average. 
+           <br><i>Note: If a manager worked for 1 hour or more of a daypart, they are counted for that dayparts results. If a manager works less than 1 hour of a daypart, they are not counted for that dayparts results.</i>
         </p>
       </div>
     </article>
@@ -19,25 +17,175 @@
           <img class="rounded-circle article-img" src="/media/site_media/traffic_light.jpg">
           <div class="media-body">
             <h2><a class="article-title">% of Green Dayparts</a></h2> <!--  add link to this result later on-->
-            <p class="article-content">{{goals.green_goal}}% or higher.</p>
+            <p class="article-content">Goal: {{goals.green_goal}}% or higher.</p>
             <p class="text-muted">Calculated by number of green dayparts you worked divided by how many total dayparts you worked.</p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col"># of Stars</th>
+                  <th scope="col">Threshold</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>5</td>
+                  <td>90% or higher</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>80% to 89.99%</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>70% to 79.99%</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>60% to 69.99%</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>59.99% or lower</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </article>
         <article class="media content-section">
           <img class="rounded-circle article-img" src="/media/site_media/stopwatch.jpg">
           <div class="media-body">
             <h2><a class="article-title">SOS +/- Seconds vs Goal</a></h2> <!--  add link to this result later on-->
-            <p class="article-content">Under {{goals.seconds_goal}} </p>
+            <p class="article-content">Goal: Under {{goals.seconds_goal}} </p>
             <p class="text-muted">Calculated by total seconds over or under sos goals each daypart, divided by number of dayparts worked</p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col"># of Stars</th>
+                  <th scope="col">Threshold</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>5</td>
+                  <td>-25 seconds or more</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>-15.01 through -24.99 seconds</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>0 through -15 seconds</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>+9.99 through +0.01 seconds</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>+10 seconds or more</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </article>
         <article class="media content-section">
           <img class="rounded-circle article-img" src="/media/site_media/note_card.jpg">
           <div class="media-body">
             <h2><a class="article-title">Number of CHAMPS Cards Given Out</a></h2> <!--  add link to this result later on-->
-            <p class="article-content">{{goals.champs_goal|div:100}} each shift worked</p>
+            <p class="article-content">Goal: {{goals.champs_goal|div:100}} each shift worked</p>
             <p class="text-muted">Calculated by total CHAMPS cards you gave out, divided by the number of shifts you worked. 
-            <br><i>Note: Cannot be higher than 100%</i></p>
+            <br><i>Note: Cannot be higher than 100%. If more than 1 card is given out on a shift, only the first card is counted. You cannot give out all cards needed 
+              for the period in one day. To achieve 100% you must give out at least 1 card every shift you work.
+            </i></p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col"># of Stars</th>
+                  <th scope="col">Threshold</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>5</td>
+                  <td>95% or more</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>90% through 94.99%</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>85% through 89.99%</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>80% through 84.99%</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>79.99% or lower</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="/media/site_media/checklist.jpg">
+          <div class="media-body">
+            <h2><a class="article-title">Number of Zenput's Missed.</a></h2> <!--  add link to this result later on-->
+            <p class="article-content">Goal: No More than {{goals.zenput_goal}} per period</p>
+            <p class="text-muted">Calculated by total number of missed Zenputs on your shifts. 
+            <br><i>Note: If you worked are considered worked for a breakfast, lunch, snack or dinner daypart where zenput was missed, you are considered responsible for that missed zenput. <br>
+              Also: Year-To-Date and Quarter-To-Date results are averaged for that time period, while the goal remians at 1 or less for the average.
+            </i></p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col"># of Stars</th>
+                  <th scope="col">Threshold</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>5</td>
+                  <td>0 through 0.99 missed</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>1 missed</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>2 or more missed</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+        <article class="media content-section">
+          <img class="rounded-circle article-img" src="/media/site_media/audit.png">
+          <div class="media-body">
+            <h2><a class="article-title" >CORE Self-Audits Completed</a></h2> 
+            <p class="article-content">Goal: {{goals.audit_goal}} per period</p>
+            <p class="text-muted">Each manager expexted to complete 1 CORE Self-Audit (Standards and Food Safety together) each period. Results must be sent to Melanie, and must be printed and given to RGM to recieve credit.</p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col"># of Stars</th>
+                  <th scope="col">Threshold</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>5</td>
+                  <td>1 full Self Audit Completed</td>
+                </tr>
+                  <td>0</td>
+                  <td>Self Audit not Completed</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </article>
         <article class="media content-section">
@@ -46,20 +194,67 @@
             <h2><a class="article-title">Number of Loop Calls</a></h2> <!--  add link to this result later on-->
             <p class="article-content">Less than {{goals.mention_goal}} per period</p>
             <p class="text-muted">The number of Loop calls (1-800 complaint calls) each manager recieves.</p>
-        </article>
-        <article class="media content-section">
-          <img class="rounded-circle article-img" src="/media/site_media/gold_bell.jpg">
-          <div class="media-body">
-            <h2><a class="article-title">5 Bells</a></h2> <!--  add link to this result later on-->
-            <p class="article-content">{{goals.five_bells_goal}}% or higher</p>
-            <p class="text-muted">Percentage of "5's" on surveys that are submitted for dayparts you work.</p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col"># of Stars</th>
+                  <th scope="col">Threshold</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>5</td>
+                  <td>0 or 1 calls</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>2 calls</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>3 calls</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>4 calls or more</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </article>
         <article class="media content-section">
           <img class="rounded-circle article-img" src="/media/site_media/angry.jpg">
           <div class="media-body">
             <h2><a class="article-title" >Dissatisfied</a></h2> <!--  add link to this result later on-->
-            <p class="article-content">Under {{goals.dissat_goal}}%</p>
-            <p class="text-muted">Percentage of 1's, 2's and 3's on surveys that are submitted for dayparts you work.</p>
+            <p class="article-content">Under {{goals.dissat_goal}}</p>
+            <p class="text-muted">Number of 1's, 2's and 3's on surveys that are submitted for dayparts you work.</p>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col"># of Stars</th>
+                  <th scope="col">Threshold</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>5</td>
+                  <td>1 or less</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>2</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>3</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>4 or more</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </article>
     {% else %}
     <h1>About Page</h1>

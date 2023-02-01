@@ -1,0 +1,229 @@
+{% load static %}
+{% load mathfilters %}
+<!DOCTYPE html>
+<html>
+<head>
+        <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/bootstrap.min.css" />
+     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cdbootstrap/css/cdb.min.css" />   this is the one making the extra space at the top... used for charts??-->
+    <link rel="stylesheet" type="text/css" href="{% static 'results/main.css' %}">
+    {% if title %}
+        <title>TK-Mark Tracking - {{ title }}</title>
+    {% else %}
+        <title>TK-Mark Tracking</title>
+    {% endif %}
+</head>
+<body>
+    <div>
+        
+          <h1 style="text-align: left; font-size:160%;">5-Star Manager Results - Stars Matrix</h1>
+        <hr>
+    </div>
+      <article class="media content-section">
+          <t style="font-size:110%; font-weight: bolder;">Green Dayparts Stars</t>
+        <table class="table">
+         <thead>
+          <tr>
+            <th scope="col" style="text-align: left;"># of Stars</th>
+            <th scope="col" style="text-align: left;">Threshold</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>5</td>
+            <td>90% or higher</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>80% to 89.99%</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>70% to 79.99%</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>60% to 69.99%</td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>59.99% or lower</td>
+          </tr>
+        </tbody>
+        </table>
+        </article><hr>
+        <article class="media content-section">
+          <t style="font-size:110%; font-weight: bolder;">Seconds +/- Daypart Stars</t>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col"style="text-align: left;"># of Stars</th>
+                <th scope="col"style="text-align: left;">Threshold</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>5</td>
+                <td>-25 seconds or more</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>-15.01 through -24.99 seconds</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>0 through -15 seconds</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>+9.99 through +0.01 seconds</td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>+10 seconds or more</td>
+              </tr>
+            </tbody>
+          </table>
+        </article><hr>
+        <article class="media content-section">
+            <t style="font-size:110%; font-weight: bolder;">Champs Cards Given Out Stars</t>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col"style="text-align: left;"># of Stars</th>
+                  <th scope="col"style="text-align: left;">Threshold</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>5</td>
+                  <td>95% or more</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>90% through 94.99%</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>85% through 89.99%</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>80% through 84.99%</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>79.99% or lower</td>
+                </tr>
+              </tbody>
+            </table>
+          </article><hr>
+          <article class="media content-section">
+            <t style="font-size:110%; font-weight: bolder;">Zenputs Missed Stars</t>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col" style="text-align: left;"># of Stars</th>
+                  <th scope="col" style="text-align: left;">Threshold</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>5</td>
+                  <td>0 through 0.99 missed</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>1 missed</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>2 or more missed</td>
+                </tr>
+              </tbody>
+            </table>
+            </article><hr>
+            <article class="media content-section">
+                <t style="font-size:110%; font-weight: bolder;">CORE Self-Audits Completed</t>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col" style="text-align: left;"># of Stars</th>
+                      <th scope="col" style="text-align: left;">Threshold</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>5</td>
+                      <td>1 full Self Audit Completed</td>
+                    </tr>
+                      <td>0</td>
+                      <td>Self Audit not Completed</td>
+                    </tr>
+                  </tbody>
+                </table>
+            </article><hr>
+          <article class="media content-section">
+              <t style="font-size:110%; font-weight: bolder;">Loop Calls Stars</t>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col"style="text-align: left;"># of Stars</th>
+                    <th scope="col"style="text-align: left;">Threshold</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>5</td>
+                    <td>0 or 1 calls</td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>2 calls</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>3 calls</td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td>4 calls or more</td>
+                  </tr>
+                </tbody>
+              </table>
+            </article><hr>
+              <article class="media content-section">
+                  <t style="font-size:110%; font-weight: bolder;">Dissat (Surveys) Stars</t>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col"style="text-align: left;"># of Stars</th>
+                        <th scope="col"style="text-align: left;">Threshold</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>5</td>
+                        <td>1 or less</td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td>2</td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>3</td>
+                      </tr>
+                      <tr>
+                        <td>1</td>
+                        <td>4 or more</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </article>
+</body>

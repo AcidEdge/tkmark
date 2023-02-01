@@ -1,0 +1,85 @@
+{% extends "results/base.html" %}
+{% block content %}
+{% if user.is_staff %}
+<h2>{{employee.first_name}} {{employee.last_name}}'s Attendance Record</h2>
+Click <a href="{% url 'attendance-about' %}">here</a> to view the attendance policy
+<article class="media content-section">
+  <img class="rounded-circle article-img" src="/media/site_media/absent1.jpg">
+    <p class="bold">Last 30 days Attendance<br><br></p>
+  <table class="table">
+   <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Points</th>
+      <th scope="col">Type of Absence</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for result in attendance %}
+    <tr>
+      {% if user.is_staff %}
+      <td>
+        <a href="{% url 'absence-detail' result.id %}">{{result.date}}</a>
+      </td>
+      {% else %}
+      <td>
+        {{result.date}}
+      </td>
+      {% endif %}
+      <td>
+        <td>
+            {{result.points}}
+        </td>
+        <td>
+          {{result.code}}
+        </td>
+    </tr>
+    {% endfor %}
+    <tr>
+      <td style="font-weight: bold;">Total Points:</td>
+      {% if points_total.points__sum >= 10 %}
+      <td style="color: red; font-weight: bold;" >{{points_total.points__sum}}</td>
+      {% elif points_total.points__sum >= 5 %}
+      <td style="color: rgb(255, 102, 0); font-weight: bold;">{{points_total.points__sum}}</td>
+      {% else %}
+      <td style="color: green; font-weight: bold;">{{points_total.points__sum}}</td>
+      {% endif %}
+    </tr>
+  </table>
+  </article>
+  <article class="media content-section">
+    <img class="rounded-circle article-img" src="/media/site_media/absent1.jpg">
+      <p class="bold">All Attendance Records<br><br></p>
+    <table class="table">
+     <thead>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Points</th>
+        <th scope="col">Type of Absence</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for result in attendance_all %}
+      <tr>
+          {% if user.is_staff %}
+          <td>
+            <a href="{% url 'absence-detail' result.id %}">{{result.date}}</a>
+          </td>
+          {% else %}
+          <td>
+            {{result.date}}
+          </td>
+          {% endif %}
+          <td>
+              {{result.points}}
+          </td>
+          <td>
+            {{result.code}}
+          </td>
+      </tr>
+      {% endfor %}
+      <tr>
+    </table>
+    </article>
+  {% endif %}
+{% endblock content %}

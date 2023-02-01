@@ -1,0 +1,88 @@
+{% extends "results/base.html" %}
+{% block content %}
+<h2>Your Attendance:</h2>
+{% if points_total.points__sum  > 10 %}
+<h3 style="color: red; font-weight: bold;">Warning: You have {{points_total.points__sum}} points in the last 30 days. <br>Point totals over 15 in 30 days may result in termination. </h3>
+{% endif %}
+Click <a href="{% url 'attendance-about' %}">here</a> to view the attendance policy
+{% if points_total.points__sum  > 0 %}
+<article class="media content-section">
+  <img class="rounded-circle article-img" src="/media/site_media/absent1.jpg">
+    <p class="bold">Last 30 days<br><br></p>
+  <table class="table">
+   <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Points</th>
+      <th scope="col">Type of Absence</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for result in attendance %}
+    <tr>
+        <td>
+          {{result.date}}
+        </td>
+        <td>
+            {{result.points}}
+        </td>
+        <td>
+          {{result.code}}
+        </td>
+    </tr>
+    {% endfor %}
+    <tr>
+      <td style="font-weight: bold;">Total Points:</td>
+      {% if points_total.points__sum >= 10 %}
+      <td style="color: red; font-weight: bold;" >{{points_total.points__sum}}</td>
+      {% elif points_total.points__sum >= 5 %}
+      <td style="color: rgb(255, 102, 0); font-weight: bold;">{{points_total.points__sum}}</td>
+      {% else %}
+      <td style="color: green; font-weight: bold;">{{points_total.points__sum}}</td>
+      {% endif %}
+    </tr>
+  </table>
+  </article>
+  {% else %}
+  <center>
+    <img  src="/media/site_media/perfect_attendance_banner.jpg">
+    <img  src="/media/site_media/great_job.gif">
+</center>
+  {% endif %}
+  {% if user.is_staff %}
+  <h2>Team Attendance:</h2> 
+  <article class="media content-section">
+    <img class="rounded-circle article-img" src="/media/site_media/absent1.jpg">
+      <p class="bold">Last 30 days Attendance<br><br></p>
+    <table class="table">
+     <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Date</th>
+        <th scope="col">Points</th>
+        <th scope="col">Type of Absence</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for result in team_absent %}
+      <tr>
+        <td>
+          <a href="{% url 'user-attendance' result.employee.id %}">{{result.employee.first_name}} {{result.employee.last_name}}</a>
+        </td>
+          <td>
+            {{result.date}}
+          </td>
+          <td>
+              {{result.points}}
+          </td>
+          <td>
+            {{result.code}}
+          </td>
+      </tr>
+      {% endfor %}
+      <tr>
+    </table>
+    </article>
+  {% endif %}
+
+{% endblock content %}

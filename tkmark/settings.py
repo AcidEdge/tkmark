@@ -40,11 +40,12 @@ INSTALLED_APPS = [
     'crispy_forms',
     'results.apps.ResultsConfig',
     'users.apps.UsersConfig',
+    'attendance.apps.AttendanceConfig',
+    'reports.apps.ReportsConfig',
     'mathfilters',
     'updates.apps.UpdatesConfig',
     'phonenumber_field',
     'anymail',
-    
 ]
 
 MIDDLEWARE = [
@@ -55,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_auto_logout.middleware.auto_logout',
 ]
 
 ROOT_URLCONF = 'tkmark.urls'
@@ -138,14 +140,22 @@ CRIPSY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = 'results-home'
 LOGIN_URL = 'login'
 
+PASSWORD_RESET_TIMEOUT = 86400
+
+PHONENUMBER_DB_FORMAT = 'NATIONAL'
+PHONENUMBER_DEFUALT_REGION = 'US'
+PHONENUMBER_DEFAULT_FORMAT ='RFC3966'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-
 
 EMAIL_HOST = 'smtp.mailgun.org'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER ='postmaster@tkmark.org'
 EMAIL_HOST_PASSWORD ='69d6768f0bcc79e5a3b06cfb68da2995-48d7d97c-6a6fb8c2'
+
+AUTO_LOGOUT = {'IDLE_TIME': 1200,
+                'SESSION_TIME': 3600,
+                'MESSAGE': 'The session has expired. Please login again to contine.',
+            }
