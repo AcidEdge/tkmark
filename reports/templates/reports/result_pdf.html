@@ -20,7 +20,7 @@
         <p class="text-muted"><i>Period manager results report with 5 star manager results</i>
         </p>
         
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
             Select Report Period</a>
           <ul id="div1" class="dropdown-menu">
             <li><a class="dropdown-item" href="{% url 'results-report' 19 %}" target="_blank">Current Period</a></li>
@@ -54,7 +54,7 @@
         <p class="text-muted"><i>Manager results report for individual managers, with full year results</i>
         </p>
         <div>
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
             Select Manager</a>
           <ul class="dropdown-menu">
             {% for result in manager %}
@@ -72,7 +72,7 @@
         </p>
           <a href="{% url 'attendance-policy-pdf' %}" style="padding-left: 17px;" target="_blank">Attendance Policy</a><br>
           <a href="{% url 'attendance-last-30' %}" style="padding-left: 17px;" target="_blank">All Attendance for the last 30-Days</a>
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
             Select Employee</a>
           <ul id="div1" class="dropdown-menu">
             {% for result in employee %}

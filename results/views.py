@@ -116,13 +116,13 @@ def update_results(new_results):
         dissat_results.dissat = dissat_results.dissat / 4
 
 #go through results and assign stars for each result area
-    if green_results.green_percent >= 90.00:
+    if green_results.green_percent >= 95.00:
         Stars.objects.filter(manager=new_results[0], period=new_results[1]).update(green_stars=5)
-    elif green_results.green_percent >=80.00 and green_results.green_percent <=89.99:
+    elif green_results.green_percent >=85.00 and green_results.green_percent <=94.99:
         Stars.objects.filter(manager=new_results[0], period=new_results[1]).update(green_stars=4)
-    elif green_results.green_percent >=70.00 and green_results.green_percent <=79.99:
+    elif green_results.green_percent >=75.00 and green_results.green_percent <=84.99:
         Stars.objects.filter(manager=new_results[0], period=new_results[1]).update(green_stars=3)
-    elif green_results.green_percent >=60.00 and green_results.green_percent <=69.99:
+    elif green_results.green_percent >=65.00 and green_results.green_percent <=74.99:
         Stars.objects.filter(manager=new_results[0], period=new_results[1]).update(green_stars=2)
     else:
         Stars.objects.filter(manager=new_results[0], period=new_results[1]).update(green_stars=1)
@@ -136,13 +136,13 @@ def update_results(new_results):
         Stars.objects.filter(manager=new_results[0], period=new_results[1]).update(second_stars=2)
     else:
         Stars.objects.filter(manager=new_results[0], period=new_results[1]).update(second_stars=1)
-    if champs_results.champs_percent >= 95.00:
+    if champs_results.champs_percent >= 85.00:
         Stars.objects.filter(manager=new_results[0], period=new_results[1]).update(champ_stars=5)
-    elif champs_results.champs_percent >= 90.00 and champs_results.champs_percent <= 94.99:
-        Stars.objects.filter(manager=new_results[0], period=new_results[1]).update(champ_stars=4)
-    elif champs_results.champs_percent >=85.00 and champs_results.champs_percent <= 89.99:
-        Stars.objects.filter(manager=new_results[0], period=new_results[1]).update(champ_stars=3)
     elif champs_results.champs_percent >= 80.00 and champs_results.champs_percent <= 84.99:
+        Stars.objects.filter(manager=new_results[0], period=new_results[1]).update(champ_stars=4)
+    elif champs_results.champs_percent >=75.00 and champs_results.champs_percent <= 79.99:
+        Stars.objects.filter(manager=new_results[0], period=new_results[1]).update(champ_stars=3)
+    elif champs_results.champs_percent >= 70.00 and champs_results.champs_percent <= 74.99:
         Stars.objects.filter(manager=new_results[0], period=new_results[1]).update(champ_stars=2)
     else:
         Stars.objects.filter(manager=new_results[0], period=new_results[1]).update(champ_stars=1)
