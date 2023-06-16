@@ -194,7 +194,7 @@
                   {% if period == 14 %}
                     {% if goals.zenput_goal >= result.missed|div:13 %}
                     <td style="color: green">
-                        {{result.missed|div:13}}
+                        {{result.missed|div:13|floatformat:2}}
                     </td>
                       {% else %}
                       <td style="color: red">
@@ -245,7 +245,11 @@
               </table>
               </article><hr>
           <article class="media content-section">
+              {% if period == 14 %}
+              <t style="font-size:110%; font-weight: bolder;">Loop Calls Results -- Goal: Under {{goals.mention_goal}} per year average</t>
+              {% else %}
               <t style="font-size:110%; font-weight: bolder;">Loop Calls Results -- Goal: Under {{goals.mention_goal}} per period</t>
+              {% endif %}
             <table class="table">
              <thead>
             </thead>
@@ -255,14 +259,26 @@
                   <td>
                       {{result.manager.first_name}}
                   </td>
-                  {% if result.mention >= goals.mention_goal %}
-                <td style="color: red">
-                    {{result.mention}} 
-                </td>
-                  {% else %}
-                  <td style="color: green">
-                    {{result.mention}} 
-                </td>
+                  {% if period == 14 %}
+                    {% if result.mention|div:13 >= goals.mention_goal %}
+                    <td style="color: red">
+                      {{result.mention|div:13|floatformat:2}} 
+                    </td>
+                    {% else %}
+                    <td style="color: green">
+                      {{result.mention|div:13|floatformat:2}} 
+                  </td>
+                  {% endif %}
+                {% else %}
+                {% if result.mention >= goals.mention_goal %}
+                    <td style="color: red">
+                      {{result.mention|floatformat:2}} 
+                    </td>
+                    {% else %}
+                    <td style="color: green">
+                      {{result.mention}} 
+                  </td>
+                {% endif %}
                 {% endif %}
               </tr>
               {% endfor %}

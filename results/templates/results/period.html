@@ -167,7 +167,11 @@
     </article>
     <article class="media content-section">
       <img class="rounded-circle article-img" src="/media/site_media/checklist.jpg">
-        <p class="bold">Missed Zenputs<br><br>Goal:<br>Under<br>{{goals.zenput_goal}}</p>
+      {% if period == 14 %}
+        <p class="bold">Missed Zenputs<br><br>Goal:<br>Under<br>{{goals.zenput_goal}}<br>Avg YTD</p>
+      {% else %}
+        <p class="bold">Missed Zenputs<br><br>Goal:<br>Under<br>{{goals.zenput_goal}}<br>per period</p>
+      {% endif %}
       <table class="table">
        <thead>
         <tr>
@@ -181,15 +185,27 @@
             <td>
                 {{result.manager.first_name}}
             </td>
-              {% if goals.zenput_goal >= result.missed %}
-                <td style="color: green">
-                {{result.missed}}
-                </td>
+            {% if period == 14 %}
+            {% if goals.zenput_goal >= result.missed|div:13 %}
+            <td style="color: green">
+                {{result.missed|div:13|floatformat:2}}
+            </td>
               {% else %}
-                <td style="color: red">
+              <td style="color: red">
+                {{result.missed|div:13|floatformat:2}}
+            </td>
+            {% endif %}
+          {% else %}
+            {% if goals.zenput_goal >= result.missed %}
+            <td style="color: green">
                 {{result.missed}}
-                </td>
-              {% endif %}
+            </td>
+              {% else %}
+              <td style="color: red">
+                {{result.missed}}
+            </td>
+            {% endif %}
+          {% endif %}
         </tr>
         {% endfor %}
       </table>
@@ -225,7 +241,11 @@
         </article>
     <article class="media content-section">
       <img class="rounded-circle article-img" src="/media/site_media/red_phone.jpg">
+        {% if period == 14 %}
+        <p class="bold">Loop Calls<br><br>Goal:<br>Under {{goals.mention_goal}} average YTD</p>
+        {% else %}
         <p class="bold">Loop Calls<br><br>Goal:<br>Under {{goals.mention_goal}} per period</p>
+        {% endif %}
       <table class="table">
        <thead>
         <tr>
@@ -239,15 +259,27 @@
             <td>
                 {{result.manager.first_name}}
             </td>
-            {% if result.mention >= goals.mention_goal %}
-          <td style="color: red">
-              {{result.mention}} 
-          </td>
-            {% else %}
-            <td style="color: green">
-              {{result.mention}} 
-          </td>
-          {% endif %}
+            {% if period == 14 %}
+                    {% if result.mention|div:13 >= goals.mention_goal %}
+                    <td style="color: red">
+                      {{result.mention|div:13|floatformat:2}} 
+                    </td>
+                    {% else %}
+                    <td style="color: green">
+                      {{result.mention|div:13|floatformat:2}} 
+                  </td>
+                  {% endif %}
+                {% else %}
+                {% if result.mention >= goals.mention_goal %}
+                    <td style="color: red">
+                      {{result.mention|floatformat:2}} 
+                    </td>
+                    {% else %}
+                    <td style="color: green">
+                      {{result.mention}} 
+                  </td>
+                {% endif %}
+                {% endif %}
         </tr>
         {% endfor %}
       </table>
